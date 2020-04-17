@@ -1,0 +1,6 @@
+- name: Install zabbix-proxy
+  hosts: zabbix_proxy
+  remote_user: root
+  roles:
+  - zabbix-proxy_install
+  tags: zabbix-proxy

@@ -1,0 +1,35 @@
+---
+# tasks file for sftp_install
+- name: create user group and user
+  shell:  |
+    groupadd sftp
+    useradd -g sftp -s /sbin/nologin -M sftp
+    echo {{password}} | passwd --stdin sftp
+
+- name: mkdir
+  shell:  |
+    mkdir -p {{userdir}}
+    usermod -d {{userdir}} sftp
+
+- name: modify sshd_config
+  shell:  |
+    sed -i 's/^Subsystem/#&/' /etc/ssh/sshd_config
+    echo -e '\nSubsystem       sftp    internal-sftp      \nMatch Group sftp      \nChrootDirectory /data1/sftp/mysftp    \nForceCommand    internal-sftp      \nAllowTcpForwarding no      \nX11Forwarding no' >>  /etc/ssh/sshd_config
+- name: chroot
+  shell:  |
+    chown root:sftp {{userdir}}
+    chmod 755 {{userdir}}
+
+- name: create uploaddir
+  shell:  |
+    mkdir {{userdir}}/upload
+    chown sftp:sftp {{userdir}}/upload
+    chmod 755 {{userdir}}/upload
+
+- name: restart sshd
+  shell: systemctl restart sshd.service
+
+- name: Check if sshd is accessible
+  service:
+    name: sshd
+    state: started

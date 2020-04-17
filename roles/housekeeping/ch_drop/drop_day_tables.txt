@@ -1,0 +1,4 @@
+ 
+ALTER TABLE k18_ods.tbs_ods_ntc_collect_radius_log_local  DROP PARTITION 18096;
+ALTER TABLE k18_ods.tbs_ods_ntc_dns_log_local  DROP PARTITION 18096;
+ALTER TABLE k18_ods.tbs_ods_ntc_http_log_local  DROP PARTITION 18096;

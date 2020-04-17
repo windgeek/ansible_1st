@@ -1,0 +1,3 @@
+password: 'k19k19'
+#接收dm数据的时候要和logstash监控的目录一致
+userdir: /data1/sftp/mysftp

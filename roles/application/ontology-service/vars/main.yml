@@ -1,0 +1,27 @@
+#the user for run service，the user will create if not exist
+start_user: 'k18'
+
+#service port
+service_port: '8888'
+
+#deploy path: [deploy_path]/graph-service
+deploy_path: '/data1'
+#application's registration center. config like: 192.168.5.76:2181,192.168.5.77:2181
+register_zk: '192.168.5.77:2181'
+
+#mysql connection
+mysql_addr: '192.168.5.77:3306'
+#mysql_user
+mysql_user: 'root'
+#mysql password
+mysql_password: 'k18k18'
+
+#es for application
+es_hosts: '192.168.162.96,192.168.162.97'
+#es port
+es_port: '9300'
+#es_clustername
+es_clustername: 'es'
+
+#systemmanager addr
+systemmanager_addr: 'http://bigdata.percent.cn/api/SystemManager'

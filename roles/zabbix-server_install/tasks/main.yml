@@ -1,0 +1,74 @@
+---
+# tasks file for zabbix-server_install
+- name: install httpd
+  yum: name=httpd state=present
+- name: modify configure file
+  lineinfile:
+    dest: /etc/httpd/conf/httpd.conf
+    regexp: '#ServerName www.example.com:80'
+    line: 'ServerName {{ http_ip }}:80'
+    backrefs: yes
+- name: start httpd service
+  service: name=httpd state=started
+- name: install php
+  yum: name=php state=present
+- name: bak zabbix.repo
+  shell: cp /etc/yum.repos.d/zabbix.repo /etc/yum.repos.d/zabbix.repo.bak
+- name: install zabbix
+  yum: name=zabbix-release.noarch state=present
+- name: bakup zabbix.repo.bak
+  shell: cp /etc/yum.repos.d/zabbix.repo.bak /etc/yum.repos.d/zabbix.repo
+- name: install zabbix-server-mysql
+  yum: name=zabbix-server-mysql state=present
+- name: install zabbix-web-mysql
+  yum: name=zabbix-web-mysql state=present
+- name: install zabbix-agent
+  yum: name=zabbix-agent state=present
+- name: install zabbix-get
+  yum: name=zabbix-get state=present
+- name: copy create_zabbix_user.sql
+  copy: src=create_zabbix_user.sql dest=/etc/zabbix/
+- name: create zabbix database
+  shell: mysql -uroot -pk19k19 < /etc/zabbix/create_zabbix_user.sql
+- name: init mysql data
+  shell: zcat /usr/share/doc/zabbix-server-mysql-3.0.*/create.sql.gz | mysql -uzabbix -pzabbix zabbix
+- name: modify zabbix-server.conf
+  lineinfile:
+    dest: /etc/zabbix/zabbix_server.conf
+    regexp: '# DBHost=localhost'
+    line: 'DBHost={{ mysql_ip }}'
+    backrefs: yes
+- name: modify zabbix-server.conf
+  lineinfile:
+    dest: /etc/zabbix/zabbix_server.conf
+    regexp: '# DBPassword='
+    line: 'DBPassword=zabbix'
+    backrefs: yes
+- name: modify zabbix-server.conf
+  lineinfile:
+    dest: /etc/zabbix/zabbix_server.conf
+    regexp: 'LogFileSize=.*'
+    line: 'LogFileSize=50'
+    backrefs: yes
+- name: modify php timezone
+  lineinfile:
+    dest: /etc/httpd/conf.d/zabbix.conf
+    regexp: 'always_populate_raw_post_data'
+    insertafter: 'php_value always_populate_raw_post_data -1'
+    line: '        php_value date.timezone {{timezone}}'
+    backrefs: yes
+
+- name: systemctl restart httpd
+  shell: systemctl restart httpd
+
+- name: systemctl restart zabbix-server
+  shell: systemctl restart zabbix-server
+
+- name: Check if zabbix-server is accessible
+  wait_for:
+    port: 10051
+    state: started
+    delay: 10
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 15
+    connect_timeout: 5

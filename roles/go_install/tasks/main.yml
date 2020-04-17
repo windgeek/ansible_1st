@@ -1,0 +1,19 @@
+---
+# tasks file for go_install
+- name: unpack the go file
+  unarchive: src=go1.13.6.linux-amd64.tar.gz dest=/opt/ copy=yes
+- name: install config file
+  copy: src=go.sh dest=/etc/profile.d/
+- name: source go profile
+  shell: |
+    source /etc/profile.d/go.sh
+    ln -s /opt/go/bin/go /usr/local/bin/go
+- name: register go version
+  shell: go version
+  register: info
+- name: go version
+  shell: |
+    source /etc/profile
+    go version
+- name: display info
+  debug: msg="go installed {{ info['stdout'] }}"

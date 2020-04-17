@@ -1,0 +1,60 @@
+---
+# tasks file for es_install
+- name: unpack the logstash file
+  unarchive: src={{logstash_version}}.tar.gz dest=/opt copy=yes
+- name: user check
+  shell: cat /etc/passwd
+  register: info
+- name: user delete
+  shell: userdel -rf logstash && rm -rf /var/spool/mail/logstash
+  when: info.stdout.find('logstash') != -1
+- name: create user
+  shell: useradd logstash
+- name: create soft link
+  file: path=/opt/logstash state=link src=/opt/{{logstash_version}}
+- name: chown
+  shell:  |
+    chown -R logstash:logstash /opt/{{logstash_version}}
+    chown -R logstash:logstash /opt/logstash
+- name: mkdir && chown
+  shell: |
+    mkdir -pv {{path_data}}/data
+    mkdir -pv {{path_data}}/logs
+    mkdir {{path_data}}/data/{{logstash_sincedb}}
+    chown logstash:logstash -R {{path_data}}
+    mkdir -pv {{collection_conf_dir}}
+    chown logstash:logstash -R {{collection_conf_dir}}
+- name: config logstash
+  template: src="templates/logstash.yml" dest="/opt/logstash/config/logstash.yml" owner=logstash group=logstash mode=0644
+
+- name: config logstash
+  template: src="templates/pipelines.yml" dest="/opt/logstash/config/pipelines.yml" owner=logstash group=logstash mode=0644
+
+- name: config logstash
+  template: src="templates/jvm.options" dest="/opt/logstash/config/jvm.options" owner=logstash group=logstash mode=0644
+
+- name: config logstash
+  template: src="templates/log4j2.properties" dest="/opt/logstash/config/log4j2.properties" owner=logstash group=logstash mode=0644
+
+- name: config logstash
+  template: src="templates/conv_pipeline.conf" dest="{{collection_conf_dir}}/conv_pipeline.conf" owner=logstash group=logstash mode=0644
+
+- name: config logstash
+  template: src="templates/hdr_pipeline.conf" dest="{{collection_conf_dir}}/hdr_pipeline.conf" owner=logstash group=logstash mode=0644
+
+#- name: config logstash
+#  template: src="templates/test_pipline.conf" dest="{{collection_conf_dir}}/test_pipline.conf" owner=logstash group=logstash mode=0644
+
+
+- name: start logstash
+  shell: su - logstash -c "nohup /opt/logstash/bin/logstash > /dev/null 2>&1 &"
+
+- name: Check if Logstash is accessible
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 9600
+    state: started
+    delay: 30
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 40
+    connect_timeout: 5

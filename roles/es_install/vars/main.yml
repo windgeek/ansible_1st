@@ -1,0 +1,16 @@
+cluster_name: ala
+http_port: 9200
+tcp_port: 9300
+#添加master的IP地址
+unicast_hosts: '["172.24.9.54:9300","172.24.9.53:9300","172.24.9.52:9300"]'
+#多路径请配置成这种形式：/data1/elasticsearch/data,/data2/elasticsearch/data
+path_data: /data1/elasticsearch/data
+#只配置一个log文件
+path_logs: /data1/elasticsearch/logs
+#路径请配置成这种形式：/{data1,data2}/elasticsearch
+path_datac: /data1/elasticsearch
+es_version: elasticsearch-6.7.2
+minimum_master_nodes: 1
+max_local_storage_nodes: 3
+Xms_memery: 31g
+Xmx_memery: 31g

@@ -1,0 +1,19 @@
+---
+# tasks file for postgresql_install
+- name: unpack the postgresql file
+  unarchive: src=postgresql-9.6.3.tar.gz dest=/tmp copy=yes
+- name: copy postgresql install script to client
+  template: src=install_postgresql.sh dest=/tmp/ owner=root group=root mode=0775
+- name: install postgresql
+  shell: bash /tmp/install_postgresql.sh
+- name: kill me
+  file: path=/tmp/install_postgresql.sh state=absent
+- name: Check if Postgresql is accessible
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 5432
+    state: started
+    delay: 10
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 15
+    connect_timeout: 5

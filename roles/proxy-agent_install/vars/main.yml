@@ -1,0 +1,4 @@
+---
+# vars file for proxy-agent_install
+server_ip: "{{ zabbix_server }}"
+proxy_ip: "{{ zabbix_proxy  }}"

@@ -1,0 +1,6 @@
+- name: ceph_exporter_install
+  hosts: ceph_exporter_hosts
+  remote_user: root
+  roles:
+  - ceph_exporter_install
+  tags: ceph_exporter_install

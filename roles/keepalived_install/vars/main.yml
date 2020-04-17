@@ -1,0 +1,3 @@
+script: "/etc/keepalived/nginx_check.sh"
+vip: 172.24.9.100
+e: eth0

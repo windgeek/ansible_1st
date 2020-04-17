@@ -1,0 +1,15 @@
+---
+# tasks file for java_install
+- name: unpack the jdk file
+  unarchive: src=java.tar.gz dest=/opt/ copy=yes
+- name: install config file
+  copy: src=java.sh dest=/etc/profile.d/
+- name: source java profile
+  shell: source /etc/profile.d/java.sh
+- name: java -version
+  shell: |
+    source /etc/profile
+    java -version
+  register: result
+- name: Show debug info
+  debug: var=result verbosity=0

@@ -1,0 +1,27 @@
+---
+# tasks file for ceph_install
+- name: send script
+  template: src="templates/{{item.key}}" dest="{{dir}}/{{item.value}}"
+  with_dict:
+    - {"ceph_install.sh":"ceph_install.sh"}
+    - {"ceph.conf":"ceph.conf"}
+    - {"ceph_rgw.conf":"ceph_rgw.conf"}
+    - {"osdadd.sh":"osdadd.sh"}
+- name: scp the archive package
+  unarchive: src=distribute-0.7.3.zip dest={{dir}} copy=yes
+- name: send the installation package
+  copy: src="{{item.key}}" dest="{{dir}}/{{item.value}}"
+  with_dict:
+    - {"faq.1":"faq.1"}
+    - {"MarkupSafe-1.1.1-cp27-cp27mu-manylinux1_x86_64.whl":"MarkupSafe-1.1.1-cp27-cp27mu-manylinux1_x86_64.whl"}
+- name: install dependencies
+  yum: name={{item.name}} state={{item.state|default("installed")}}
+  with_items:
+    - name: "zlib"
+    - name: "zlib-devel"
+    - name: "ceph-deploy"
+- name: install
+  shell: sh {{dir}}/ceph_install.sh
+  register: result
+- name: show debug info
+  debug: var=result verbosity=0

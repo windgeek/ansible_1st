@@ -1,0 +1,66 @@
+---
+# tasks file for mysql_install
+- name: unpack the MySQL file
+  unarchive: src=mysql-5.6.39-linux-glibc2.12-x86_64.tar.gz dest=/usr/local copy=yes
+- name: mysql user check
+  shell: cat /etc/passwd
+  register: info
+- name: user delete
+  shell: userdel -rf mysql && rm -rf /var/spool/mail/mysql
+  when: info.stdout.find('mysql') != -1
+- name: create user
+  shell: useradd mysql
+- name: install
+  shell: |
+    ln -s /usr/local/mysql-5.6.39-linux-glibc2.12-x86_64   /usr/local/mysql
+    chown -R mysql:mysql usr/local/mysql*
+    cd /usr/local
+    chown -R mysql:mysql mysql*
+- name: config
+  template: src="templates/my_bak.cnf" dest="/etc/my.cnf" owner=root group=root mode=0644
+- name: autostart config
+  shell:  |
+    cp /usr/local/mysql/support-files/mysql.server  /etc/init.d/mysqld
+    chown -R mysql:mysql /etc/my.cnf /etc/init.d/mysqld
+- name: Install dependency
+  yum: name={{item.name}} state={{item.state|default("installed")}}
+  with_items:
+    - name: "autoconf"
+    - name: "libaio.so*"
+    - name: "perl-Data-Dumper.x86_64"
+- name: mkdir && touch
+  shell: |
+    mkdir -pv {{data_dirs}}/{logs,bin-logs,run,data}
+    touch {{pid_dir}}
+    touch {{log_error_dir}}
+    chown -R mysql.mysql {{data_dirss}} -R
+    chmod -R 770 {{data_dirss}}
+- name: init && start
+  shell: |
+    /usr/local/mysql/scripts/mysql_install_db --user=mysql --defaults-file=/etc/my.cnf  --basedir=/usr/local/mysql --datadir={{data_dir}}
+    ln -s /usr/local/mysql/bin/mysqld /usr/bin
+    systemctl daemon-reload
+    systemctl start mysqld
+- name: environment
+  shell: |
+    echo -e 'export MYSQL_HOME=/usr/local/mysql\nexport PATH=${MYSQL_HOME}/bin:$PATH'>> /etc/profile.d/mysql.sh
+    source /etc/profile.d/mysql.sh
+- name: autostart
+  shell: |
+    chkconfig --add mysqld
+    chkconfig mysqld on
+- name: copy changer shell
+  copy: src="change.sh" dest=/usr/local/mysql/
+- name: run change shell
+  shell: sh /usr/local/mysql/change.sh
+- name: source
+  shell: source /etc/profile
+- name: Check if Mysql is accessible
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 3306
+    state: started
+    delay: 5
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 10
+    connect_timeout: 5

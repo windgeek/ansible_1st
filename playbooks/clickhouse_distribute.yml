@@ -1,0 +1,5 @@
+- name: Install ClickHouse_distribute_cluster
+  hosts: clickhouse_distribute_cluster_hosts #hosts 定义单个主机或组
+  remote_user: root #以root账户执行
+  roles:
+  - clickhouse_cluster_distribute_install

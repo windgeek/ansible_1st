@@ -1,0 +1,6 @@
+- name: Install Go
+  hosts: go_hosts
+  remote_user: root
+  roles:
+  - go_install
+  tags: go

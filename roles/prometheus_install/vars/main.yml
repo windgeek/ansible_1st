@@ -1,0 +1,38 @@
+start_user: "prometheus"
+exec_file: "/opt/prometheus/prometheus"
+config_file: "/opt/prometheus/prometheus.yml"
+tsdb_path: "/data1/prometheus"
+prometheus_version: "prometheus-2.12.0.linux-amd64"
+web_uri_configs: '["172.24.9.50:9090"]'
+#数据过期时间
+data_retention_time: 30d
+
+
+node_group1: node_export
+node_export_configs:
+  "172.24.9.45:9100": "platform-server-1"
+  "172.24.9.46:9100": "platform-server-2"
+  "172.24.9.47:9100": "platform-server-3"
+  "172.24.9.48:9100": "platform-server-4"
+  "172.24.9.49:9100": "platform-server-5"
+  "172.24.9.50:9100": "platform-server-6"
+  "172.24.9.51:9100": "platform-server-7"
+  "172.24.9.52:9100": "platform-server-8"
+  "172.24.9.53:9100": "platform-server-9"
+  "172.24.9.54:9100": "platform-server-10"
+  "172.24.9.55:9100": "platform-server-11"
+  "172.24.9.56:9100": "platform-server-12"
+  "172.24.9.57:9100": "platform-server-13"
+  "172.24.9.58:9100": "platform-server-14"
+
+
+clickhouse_group1: clickhouse_export
+clickhouse_export_configs:
+  "172.24.9.45:9116": "platform-server-1"
+  "172.24.9.46:9116": "platform-server-2"
+  "172.24.9.47:9116": "platform-server-3"
+  "172.24.9.48:9116": "platform-server-4"
+  "172.24.9.51:9116": "platform-server-7"
+  "172.24.9.52:9116": "platform-server-8"
+  "172.24.9.53:9116": "platform-server-9"
+  "172.24.9.54:9116": "platform-server-10"

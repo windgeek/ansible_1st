@@ -1,0 +1,41 @@
+---
+# tasks file for httpcontent
+- name: check user
+  stat: path=/home/k18
+  register: k18_exist
+- name: create user
+  shell: useradd k18 && echo 'k18k18' | passwd --stdin k18
+  when: k18_exist.stat.exists == false
+- name: check dataflowdir
+  stat: path={{dataflow_dir}}
+  register: dir_exist
+- name: create dataflow_dir
+  shell: mkdir -p {{dataflow_dir}}
+  when: dir_exist.stat.exists == false
+- name: unpack the httpcontent file
+  unarchive: src={{kafka2es_version}}.zip dest={{dataflow_dir}} copy=yes
+- name: chown
+  shell: chown k18:k18 -R {{dataflow_dir}}
+- name: upload jar to hdfs and chown
+  shell: |
+    su - hdfs -c "hadoop fs -mkdir -p /user/k18/kafka2es/lib"
+    su - hdfs -c "hadoop fs -put -f {{dataflow_dir}}/{{kafka2es_version}}/lib/*.jar /user/k18/kafka2es/lib/"
+    su - hdfs -c "hadoop fs -chown -R k18:k18 /user/k18/"
+#注意启动前要完成data_init中的内容
+- name: copy hbase.json to client
+  template: src=hbase.json dest={{dataflow_dir}}/{{kafka2es_version}}/json owner=k18 group=k18 mode=0755
+- name: upload config to hdfs and chown
+  shell: |
+    su - hdfs -c "hadoop fs -mkdir -p /user/k18/kafka2es/config"
+    su - hdfs -c "hadoop fs -put -f {{dataflow_dir}}/{{kafka2es_version}}/json/*.json /user/k18/kafka2es/config/"
+    su - hdfs -c "hadoop fs -chown -R k18:k18 /user/k18/"
+- name: copy log4j config to client
+  template: src=log4j.properties dest={{dataflow_dir}}/{{kafka2es_version}}/conf owner=k18 group=k18 mode=0755
+- name: copy kafka2es config to client
+  template: src=conf.yaml dest={{dataflow_dir}}/{{kafka2es_version}}/conf owner=k18 group=k18 mode=0755
+- name: copy kafka2es start script to client
+  template: src=templates/start.sh dest={{dataflow_dir}}/{{kafka2es_version}}/bin owner=k18 group=k18 mode=0755
+- name: start kafka2es task
+  shell: su k18 -c "nohup sh /{{dataflow_dir}}/{{kafka2es_version}}/bin/start.sh > /dev/null &"
+- pause:
+    seconds: 40

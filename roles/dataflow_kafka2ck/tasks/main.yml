@@ -1,0 +1,121 @@
+---
+# tasks file for kafka2ck
+- name: check user
+  stat: path=/home/k18
+  register: k18_exist
+- name: create user
+  shell: useradd k18 && echo 'k18k18' | passwd --stdin k18
+  when: k18_exist.stat.exists == false
+- name: check dataflowdir
+  stat: path={{dataflow_dir}}
+  register: dir_exist
+- name: create dataflow_dir
+  shell: mkdir -p {{dataflow_dir}}
+  when: dir_exist.stat.exists == false
+- name: unpack the kafka2ck file
+  unarchive: src={{kafka2ck_version}}.zip dest={{dataflow_dir}} copy=yes
+- name: chown
+  shell: chown k18:k18 -R {{dataflow_dir}}
+- name: upload jar to hdfs and chown
+  shell: |
+    su - hdfs -c "hadoop fs -mkdir -p /user/k18/dm/lib"
+    su - hdfs -c "hadoop fs -put -f {{dataflow_dir}}/{{kafka2ck_version}}/lib/*.jar /user/k18/dm/lib/"
+    su - hdfs -c "hadoop fs -chown -R k18:k18 /user/k18/"
+- name: copy log4j config to client
+  template: src=log4j.properties dest={{dataflow_dir}}/{{kafka2ck_version}}/conf owner=k18 group=k18 mode=0755
+- name: copy ntc_collect_account config to client
+  template: src=ntc_collect_account.yaml dest={{dataflow_dir}}/{{kafka2ck_version}}/conf owner=k18 group=k18 mode=0755
+- name: copy ntc_collect_account start script to client
+  template: src=templates/start_ntc_collect_account.sh dest={{dataflow_dir}}/{{kafka2ck_version}}/bin owner=k18 group=k18 mode=0755
+- name: start ntc_collect_account task
+  shell: su k18 -c "nohup sh /{{dataflow_dir}}/{{kafka2ck_version}}/bin/start_ntc_collect_account.sh > /dev/null &"
+- pause:
+    seconds: 40
+- name: copy ntc_collect_http config to client
+  template: src=ntc_collect_http.yaml dest={{dataflow_dir}}/{{kafka2ck_version}}/conf owner=k18 group=k18 mode=0755
+- name: copy ntc_collect_http start script to client
+  template: src=templates/start_ntc_collect_http.sh dest={{dataflow_dir}}/{{kafka2ck_version}}/bin owner=k18 group=k18 mode=0755
+- name: start ntc_collect_http task
+  shell: su k18 -c "nohup sh /{{dataflow_dir}}/{{kafka2ck_version}}/bin/start_ntc_collect_http.sh > /dev/null &"
+- pause:
+    seconds: 40
+- name: copy ntc_collect_lbs config to client
+  template: src=ntc_collect_lbs.yaml dest={{dataflow_dir}}/{{kafka2ck_version}}/conf owner=k18 group=k18 mode=0755
+- name: copy ntc_collect_lbs start script to client
+  template: src=templates/start_ntc_collect_lbs.sh dest={{dataflow_dir}}/{{kafka2ck_version}}/bin owner=k18 group=k18 mode=0755
+- name: start ntc_collect_lbs task
+  shell: su k18 -c "nohup sh /{{dataflow_dir}}/{{kafka2ck_version}}/bin/start_ntc_collect_lbs.sh > /dev/null &"
+- pause:
+    seconds: 40
+- name: copy ntc_collect_mail config to client
+  template: src=ntc_collect_mail.yaml dest={{dataflow_dir}}/{{kafka2ck_version}}/conf owner=k18 group=k18 mode=0755
+- name: copy ntc_collect_mail start script to client
+  template: src=templates/start_ntc_collect_mail.sh dest={{dataflow_dir}}/{{kafka2ck_version}}/bin owner=k18 group=k18 mode=0755
+- name: start ntc_collect_mail task
+  shell: su k18 -c "nohup sh /{{dataflow_dir}}/{{kafka2ck_version}}/bin/start_ntc_collect_mail.sh > /dev/null &"
+- pause:
+    seconds: 40
+- name: copy ntc_conn_record config to client
+  template: src=ntc_conn_record.yaml dest={{dataflow_dir}}/{{kafka2ck_version}}/conf owner=k18 group=k18 mode=0755
+- name: copy ntc_conn_record start script to client
+  template: src=templates/start_ntc_conn_record.sh dest={{dataflow_dir}}/{{kafka2ck_version}}/bin owner=k18 group=k18 mode=0755
+- name: start ntc_conn_record task
+  shell: su k18 -c "nohup sh /{{dataflow_dir}}/{{kafka2ck_version}}/bin/start_ntc_conn_record.sh > /dev/null &"
+- pause:
+    seconds: 40
+- name: copy ntc_collect_voip_log config to client
+  template: src=ntc_collect_voip_log.yaml dest={{dataflow_dir}}/{{kafka2ck_version}}/conf owner=k18 group=k18 mode=0755
+- name: copy ntc_collect_voip start script to client
+  template: src=templates/start_ntc_collect_voip_log.sh dest={{dataflow_dir}}/{{kafka2ck_version}}/bin owner=k18 group=k18 mode=0755
+- name: start ntc_collect_voip task
+  shell: su k18 -c "nohup sh /{{dataflow_dir}}/{{kafka2ck_version}}/bin/start_ntc_collect_voip_log.sh > /dev/null &"
+- pause:
+    seconds: 40
+- name: copy ntc_collect_voip_data_log config to client
+  template: src=ntc_collect_voip_data_log.yaml dest={{dataflow_dir}}/{{kafka2ck_version}}/conf owner=k18 group=k18 mode=0755
+- name: copy ntc_collect_voip_data_log start script to client
+  template: src=templates/start_ntc_collect_voip_data_log.sh dest={{dataflow_dir}}/{{kafka2ck_version}}/bin owner=k18 group=k18 mode=0755
+- name: start ntc_collect_voip_data_log task
+  shell: su k18 -c "nohup sh /{{dataflow_dir}}/{{kafka2ck_version}}/bin/start_ntc_collect_voip_data_log.sh > /dev/null &"
+- pause:
+    seconds: 40
+- name: copy ntc_collect_radius config to client
+  template: src=ntc_collect_radius.yaml dest={{dataflow_dir}}/{{kafka2ck_version}}/conf owner=k18 group=k18 mode=0755
+- name: copy ntc_collect_radius start script to client
+  template: src=templates/start_ntc_collect_radius.sh dest={{dataflow_dir}}/{{kafka2ck_version}}/bin owner=k18 group=k18 mode=0755
+- name: start ntc_collect_radius task
+  shell: su k18 -c "nohup sh /{{dataflow_dir}}/{{kafka2ck_version}}/bin/start_ntc_collect_radius.sh > /dev/null &"
+- pause:
+    seconds: 40
+- name: copy ntc_collect_im config to client
+  template: src=ntc_collect_im.yaml dest={{dataflow_dir}}/{{kafka2ck_version}}/conf owner=k18 group=k18 mode=0755
+- name: copy ntc_collect_im start script to client
+  template: src=templates/start_ntc_collect_im.sh dest={{dataflow_dir}}/{{kafka2ck_version}}/bin owner=k18 group=k18 mode=0755
+- name: start ntc_collect_im task
+  shell: su k18 -c "nohup sh /{{dataflow_dir}}/{{kafka2ck_version}}/bin/start_ntc_collect_im.sh > /dev/null &"
+- pause:
+    seconds: 40
+- name: copy dm_conv config to client
+  template: src=dm_conv.yaml dest={{dataflow_dir}}/{{kafka2ck_version}}/conf owner=k18 group=k18 mode=0755
+- name: copy dm_conv start script to client
+  template: src=templates/start_dm_conv.sh dest={{dataflow_dir}}/{{kafka2ck_version}}/bin owner=k18 group=k18 mode=0755
+- name: start dm_conv task
+  shell: su k18 -c "nohup sh /{{dataflow_dir}}/{{kafka2ck_version}}/bin/start_dm_conv.sh > /dev/null &"
+- pause:
+    seconds: 40
+- name: copy dm_hdr config to client
+  template: src=dm_hdr.yaml dest={{dataflow_dir}}/{{kafka2ck_version}}/conf owner=k18 group=k18 mode=0755
+- name: copy dm_hdr start script to client
+  template: src=templates/start_dm_hdr.sh dest={{dataflow_dir}}/{{kafka2ck_version}}/bin owner=k18 group=k18 mode=0755
+- name: start dm_hdr task
+  shell: su k18 -c "nohup sh /{{dataflow_dir}}/{{kafka2ck_version}}/bin/start_dm_hdr.sh > /dev/null &"
+- pause:
+    seconds: 40
+- name: copy dm_monitor config to client
+  template: src=dm_monitor.yaml dest={{dataflow_dir}}/{{kafka2ck_version}}/conf owner=k18 group=k18 mode=0755
+- name: copy dm_monitor start script to client
+  template: src=templates/start_dm_monitor.sh dest={{dataflow_dir}}/{{kafka2ck_version}}/bin owner=k18 group=k18 mode=0755
+- name: start dm_monitor task
+  shell: su k18 -c "nohup sh /{{dataflow_dir}}/{{kafka2ck_version}}/bin/start_dm_monitor.sh > /dev/null &"
+- pause:
+    seconds: 40

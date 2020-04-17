@@ -1,0 +1,15 @@
+# tasks file for auto_mount
+- name: create direcory
+  file:
+    path: /tmp/auto_mount
+    state: directory
+    mode: 0755
+- name: copy mount shell
+  copy: src="{{mount_sh}}" dest="/tmp/auto_mount/"
+- name: run mount shell
+  shell: sh /tmp/auto_mount/{{mount_sh}}
+- name: check disk mount
+  shell: lsblk
+  register: result
+- name: Show debug info
+  debug: var=result verbosity=0

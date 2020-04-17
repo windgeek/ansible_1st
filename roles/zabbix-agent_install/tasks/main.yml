@@ -1,0 +1,44 @@
+---
+# tasks file for zabbix-agent_install
+- name: install zabbix-agent
+  yum: name=zabbix-agent state=present
+- name: modify zabbix-agent.conf
+  lineinfile:
+    dest: /etc/zabbix/zabbix_agentd.conf
+    regexp: 'Server=127.0.0.1'
+    line: 'Server={{ server_ip }}'
+    backrefs: yes
+- name: modify zabbix-agent.conf
+  lineinfile:
+    dest: /etc/zabbix/zabbix_agentd.conf
+    regexp: 'ServerActive=127.0.0.1'
+    line: 'ServerActive={{ server_ip }}'
+    backrefs: yes
+- name: modify zabbix-agent.conf
+  lineinfile:
+    dest: /etc/zabbix/zabbix_agentd.conf
+    regexp: 'Hostname=.*'
+    line: 'Hostname={{ hostname }}'
+    backrefs: yes
+- name: modify zabbix-agent.conf
+  lineinfile:
+    dest: /etc/zabbix/zabbix_agentd.conf
+    regexp: '# HostMetadataItem='
+    line: 'HostMetadataItem=system.uname'
+    backrefs: yes
+- name: modify zabbix-agent.conf
+  lineinfile:
+    dest: /etc/zabbix/zabbix_agentd.conf
+    regexp: '# EnableRemoteCommands=0'
+    line: 'EnableRemoteCommands=1'
+    backrefs: yes
+- name: systemctl restart zabbix-agent
+  shell: systemctl restart zabbix-agent
+- name: Check if zabbix-agent is accessible
+  wait_for:
+    port: 10050
+    state: started
+    delay: 10
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 15
+    connect_timeout: 5

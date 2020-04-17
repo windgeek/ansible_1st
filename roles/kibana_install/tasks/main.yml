@@ -1,0 +1,37 @@
+---
+# tasks file for es_install
+- name: unpack the kibana file
+  unarchive: src={{kibana_version}}.tar.gz dest=/opt copy=yes
+- name: user check
+  shell: cat /etc/passwd
+  register: info
+- name: user delete
+  shell: userdel -rf kibana && rm -rf /var/spool/mail/kibana
+  when: info.stdout.find('kibana') != -1
+- name: create user
+  shell: useradd kibana
+- name: create soft link
+  file: path=/opt/kibana state=link src=/opt/{{kibana_version}}
+- name: chown
+  shell:  |
+    chown -R kibana:kibana /opt/{{kibana_version}}
+    chown -R kibana:kibana /opt/kibana
+- name: config kibana
+  template: src="templates/kibana.yml" dest="/opt/kibana/config/kibana.yml" owner=kibana group=kibana mode=0644
+- name: config start script
+  template: src="templates/kibana" dest="/opt/kibana/bin/kibana" owner=kibana group=kibana mode=0755
+- name: mkdir && chown
+  shell: |
+    mkdir -pv {{path_data}}/data
+    chown kibana:kibana -R {{path_data}}
+- name: start kibana
+  shell: su - kibana -c "nohup /opt/kibana/bin/kibana > /dev/null 2>&1 &"
+- name: Check if Kibana is accessible
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 5601
+    state: started
+    delay: 15
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 20
+    connect_timeout: 5

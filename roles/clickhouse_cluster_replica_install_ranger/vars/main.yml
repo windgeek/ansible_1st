@@ -1,0 +1,13 @@
+#tcp port
+shard_port: 9000
+#http port
+http_port: 8123
+#hostname prefix
+host_pre: tse-server9-
+#clickhouse cluster name
+network_read_clutser_name: clickhouse_tse_network_read
+network_write_clutser_name: clickhouse_tse_network_write
+other_read_clutser_name: clickhouse_tse_other_read
+other_write_clutser_name: clickhouse_tse_other_write
+#zk port
+zk_prot: 2181

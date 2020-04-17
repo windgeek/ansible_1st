@@ -1,0 +1,6 @@
+---
+# tasks file for tabix_install
+- name: mkdir nginx_tabix_Dir
+  shell: mkdir -p {{nginx_tabixDir}}
+- name: unpack the tabix file
+  unarchive: src=tabix.ui.tar.gz dest={{nginx_tabixDir}} copy=yes

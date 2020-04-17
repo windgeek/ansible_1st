@@ -1,0 +1,47 @@
+# my global config
+global:
+  scrape_interval:     30s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      # - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+
+    static_configs:
+    - targets: {{web_uri_configs}}
+
+  - job_name: 'linux_metric'
+    static_configs:
+{% for node_ip_port, node_hostname in node_export_configs.items() %}
+    - targets: ['{{node_ip_port}}']
+      labels:
+        group: '{{node_group1}}'
+        instance: '{{node_hostname}}'
+{% endfor %}
+
+  - job_name: 'clickhouse_metric'
+    static_configs:
+{% for ck_ip_port, ck_hostname in clickhouse_export_configs.items() %}
+    - targets: ['{{ck_ip_port}}']
+      labels:
+        group: '{{clickhouse_group1}}'
+        instance: '{{ck_hostname}}'
+{% endfor %}

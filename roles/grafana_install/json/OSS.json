@@ -1,0 +1,675 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "ntc_oss_monitor_log流量和TPS监控",
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 57,
+  "links": [],
+  "panels": [
+    {
+      "aliasColors": {},
+      "breakPoint": "50%",
+      "cacheTimeout": null,
+      "combine": {
+        "label": "Others",
+        "threshold": 0
+      },
+      "datasource": "CK-distribute",
+      "fontSize": "80%",
+      "format": "short",
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 28,
+      "interval": null,
+      "legend": {
+        "show": true,
+        "values": true
+      },
+      "legendType": "Right side",
+      "links": [],
+      "maxDataPoints": 3,
+      "nullPointMode": "connected",
+      "options": {},
+      "pieType": "pie",
+      "strokeWidth": 1,
+      "targets": [
+        {
+          "database": "k19_ods",
+          "dateColDataType": "recvdate",
+          "dateLoading": false,
+          "dateTimeColDataType": "recvtime",
+          "dateTimeType": "DATETIME",
+          "datetimeLoading": false,
+          "format": "time_series",
+          "formattedQuery": "SELECT $timeSeries as t, count() FROM $table WHERE $timeFilter GROUP BY t ORDER BY t",
+          "intervalFactor": 2,
+          "query": "SELECT\n    1,\n    category,\n    sum(filesize)\nFROM k19_ods.ntc_oss_monitor_log\nWHERE\n    dealtime >= $from * 1000\n    and dealtime <= $to * 1000\nGROUP BY category",
+          "rawQuery": "SELECT     1,     category,     sum(filesize) FROM k19_ods.ntc_oss_monitor_log WHERE     recvtime >= 1542424011 * 1000     and recvtime <= 1542510416 * 1000 GROUP BY category",
+          "refId": "A",
+          "round": "0s",
+          "table": "ntc_oss_monitor_log",
+          "tableLoading": false
+        }
+      ],
+      "title": "File Type Size Ratio",
+      "type": "grafana-piechart-panel",
+      "valueName": "current"
+    },
+    {
+      "aliasColors": {},
+      "breakPoint": "50%",
+      "cacheTimeout": null,
+      "combine": {
+        "label": "Others",
+        "threshold": 0
+      },
+      "datasource": "CK-distribute",
+      "fontSize": "80%",
+      "format": "short",
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 4,
+      "interval": null,
+      "legend": {
+        "show": true,
+        "sort": "current",
+        "sortDesc": true,
+        "values": true
+      },
+      "legendType": "Right side",
+      "links": [],
+      "maxDataPoints": 3,
+      "nullPointMode": "connected",
+      "options": {},
+      "pieType": "pie",
+      "strokeWidth": 1,
+      "targets": [
+        {
+          "dateTimeType": "DATETIME",
+          "format": "time_series",
+          "formattedQuery": "SELECT $timeSeries as t, count() FROM $table WHERE $timeFilter GROUP BY t ORDER BY t",
+          "intervalFactor": 1,
+          "query": "SELECT\n    1,\n    category,\n    count(1) \nFROM k19_ods.ntc_oss_monitor_log\nWHERE\n    dealtime >= $from * 1000\n    and dealtime <= $to * 1000\nGROUP BY category",
+          "rawQuery": "SELECT     1,     category,     count(1)  FROM k19_ods.ntc_oss_monitor_log WHERE     recvtime >= 1542424011 * 1000     and recvtime <= 1542510416 * 1000 GROUP BY category",
+          "refId": "A",
+          "round": "0s"
+        }
+      ],
+      "title": "Number of Data Types",
+      "type": "grafana-piechart-panel",
+      "valueName": "current"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "CK-distribute",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 9
+      },
+      "id": 26,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "database": "k19_ods",
+          "dateColDataType": "recvdate",
+          "dateLoading": false,
+          "dateTimeColDataType": "recvtime",
+          "dateTimeType": "DATETIME",
+          "datetimeLoading": false,
+          "format": "time_series",
+          "formattedQuery": "SELECT $timeSeries as t, count() FROM $table WHERE $timeFilter GROUP BY t ORDER BY t",
+          "intervalFactor": 1,
+          "query": "SELECT\r\n    t,\r\n    groupArray((serverIp, s)) as groupArr\r\nFROM\r\n(\r\n    SELECT\r\n        (intDiv(dealtime, 60000) * 60000)  as t,\r\n        serverIp,\r\n        sum(filesize) s\r\n    FROM k19_ods.ntc_oss_monitor_log\r\n    WHERE\r\n        dealtime >= $from * 1000\r\n        AND dealtime < $to * 1000\r\n    GROUP BY\r\n        t,\r\n        serverIp\r\n    ORDER BY\r\n        t,\r\n        serverIp\r\n)\r\nGROUP BY t\r\nORDER BY t",
+          "rawQuery": "SELECT     t,     groupArray((server, s)) as groupArr FROM (     SELECT         (intDiv(recvtime, 60000) * 60000)  as t,         server,         sum(filesize) s     FROM k19_ods.ntc_oss_monitor_log     WHERE         recvtime >= 1542424011 * 1000         AND recvtime < 1542510416 * 1000     GROUP BY         t,         server     ORDER BY         t,         server ) GROUP BY t ORDER BY t",
+          "refId": "A",
+          "round": "0s",
+          "table": "ntc_oss_monitor_log",
+          "tableLoading": false
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Dzn Server Flow",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "CK-distribute",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 9
+      },
+      "id": 24,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "database": "k19_ods",
+          "dateColDataType": "recvdate",
+          "dateLoading": false,
+          "dateTimeColDataType": "recvtime",
+          "dateTimeType": "DATETIME",
+          "datetimeLoading": false,
+          "format": "time_series",
+          "formattedQuery": "SELECT $timeSeries as t, count() FROM $table WHERE $timeFilter GROUP BY t ORDER BY t",
+          "intervalFactor": 1,
+          "query": "SELECT\r\n    t,\r\n    groupArray((serverIp, c)) as groupArr\r\nFROM\r\n(\r\n    SELECT\r\n        (intDiv(dealtime, 60000) * 60000) as t,\r\n        serverIp,\r\n        count(1) c\r\n    FROM k19_ods.ntc_oss_monitor_log\r\n    WHERE\r\n        dealtime >= $from * 1000\r\n        AND dealtime < $to * 1000\r\n    GROUP BY\r\n        t,\r\n        serverIp\r\n    ORDER BY\r\n        t,\r\n        serverIp\r\n)\r\nGROUP BY t\r\nORDER BY t",
+          "rawQuery": "SELECT     t,     groupArray((server, c)) as groupArr FROM (     SELECT         (intDiv(recvtime, 60000) * 60000) as t,         server,         count(1) c     FROM k19_ods.ntc_oss_monitor_log     WHERE         recvtime >= 1542424011 * 1000         AND recvtime < 1542510416 * 1000     GROUP BY         t,         server     ORDER BY         t,         server ) GROUP BY t ORDER BY t",
+          "refId": "A",
+          "round": "0s",
+          "table": "ntc_oss_monitor_log",
+          "tableLoading": false
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Dzn Server TPS",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "CK-distribute",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 18
+      },
+      "id": 22,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "database": "k19_ods",
+          "dateColDataType": "recvdate",
+          "dateLoading": false,
+          "dateTimeColDataType": "recvtime",
+          "dateTimeType": "DATETIME",
+          "datetimeLoading": false,
+          "format": "time_series",
+          "formattedQuery": "SELECT $timeSeries as t, count() FROM $table WHERE $timeFilter GROUP BY t ORDER BY t",
+          "intervalFactor": 1,
+          "query": "SELECT\r\n    t,\r\n    groupArray((category, s)) as groupArr\r\nFROM\r\n(\r\n    SELECT\r\n        (intDiv(dealtime, 60000) * 60000)  as t,\r\n        category,\r\n        sum(filesize) s\r\n    FROM k19_ods.ntc_oss_monitor_log\r\n    WHERE\r\n        dealtime BETWEEN $from * 1000\r\n        AND $to * 1000\r\n    GROUP BY\r\n        t,\r\n        category\r\n    ORDER BY\r\n        t,\r\n        category\r\n)\r\nGROUP BY t\r\nORDER BY t",
+          "rawQuery": "SELECT     t,     groupArray((category, s)) as groupArr FROM (     SELECT         (intDiv(recvtime, 60000) * 60000)  as t,         category,         sum(filesize) s     FROM k19_ods.ntc_oss_monitor_log     WHERE         recvtime BETWEEN 1542424011 * 1000         AND 1542510416 * 1000     GROUP BY         t,         category     ORDER BY         t,         category ) GROUP BY t ORDER BY t",
+          "refId": "A",
+          "round": "0s",
+          "table": "ntc_oss_monitor_log",
+          "tableLoading": false
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Dzn FileType Flow",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "CK-distribute",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 18
+      },
+      "id": 20,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "dateColDataType": "recvdate",
+          "dateLoading": false,
+          "dateTimeColDataType": "recvtime",
+          "dateTimeType": "DATETIME",
+          "datetimeLoading": false,
+          "format": "time_series",
+          "formattedQuery": "SELECT $timeSeries as t, count() FROM $table WHERE $timeFilter GROUP BY t ORDER BY t",
+          "intervalFactor": 1,
+          "query": "SELECT\n    t,\n    groupArray((category, c)) as groupArr\nFROM\n(\n    SELECT\n        (intDiv(dealtime, 60000) * 60000)  as t,\n        category,\n        count(*) c\n    FROM k19_ods.ntc_oss_monitor_log\n    WHERE\n        dealtime BETWEEN $from * 1000\n        AND $to * 1000\n    GROUP BY\n        t,\n        category\n    ORDER BY\n        t,\n        category\n)\nGROUP BY t\nORDER BY t",
+          "rawQuery": "SELECT     t,     groupArray((category, c)) as groupArr FROM (     SELECT         (intDiv(recvtime, 60000) * 60000)  as t,         category,         count(*) c     FROM k19_ods.ntc_oss_monitor_log     WHERE         recvtime BETWEEN 1542424011 * 1000         AND 1542510416 * 1000     GROUP BY         t,         category     ORDER BY         t,         category ) GROUP BY t ORDER BY t",
+          "refId": "A",
+          "round": "0s"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Dzn FileType TPS",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "columns": [],
+      "datasource": "CK-distribute",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 0,
+        "y": 27
+      },
+      "id": 14,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "dateTimeType": "DATETIME",
+          "format": "time_series",
+          "formattedQuery": "SELECT $timeSeries as t, count() FROM $table WHERE $timeFilter GROUP BY t ORDER BY t",
+          "intervalFactor": 2,
+          "query": "SELECT\n    now(),\n    filename,\n    count(1) as num\nFROM k19_ods.ntc_oss_monitor_log\nWHERE\n    dealtime >= $from * 1000\n    and dealtime < $to * 1000\nGROUP BY filename\nORDER BY num desc\nLIMIT 3",
+          "rawQuery": "SELECT     now(),     filename,     count(1) as num FROM k19_ods.ntc_oss_monitor_log WHERE     recvtime >= 1542424011 * 1000     and recvtime < 1542510416 * 1000 GROUP BY filename ORDER BY num desc LIMIT 3",
+          "refId": "A",
+          "round": "0s"
+        }
+      ],
+      "title": "FileName TopN",
+      "transform": "timeseries_to_columns",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": "CK-distribute",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 12,
+        "y": 27
+      },
+      "id": 12,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "dateTimeType": "DATETIME",
+          "format": "time_series",
+          "formattedQuery": "SELECT $timeSeries as t, count() FROM $table WHERE $timeFilter GROUP BY t ORDER BY t",
+          "intervalFactor": 1,
+          "query": "SELECT\n    now(),\n    cfgid,\n    count(1) as num\nFROM k19_ods.ntc_oss_monitor_log\nWHERE\n    dealtime >= $from * 1000\n    and dealtime < $to * 1000\nGROUP BY cfgid\nORDER BY num desc\nLIMIT 3",
+          "rawQuery": "SELECT     now(),     cfgid,     count(1) as num FROM k19_ods.ntc_oss_monitor_log WHERE     recvtime >= 1542424011 * 1000     and recvtime < 1542510416 * 1000 GROUP BY cfgid ORDER BY num desc LIMIT 3",
+          "refId": "A",
+          "round": "0s"
+        }
+      ],
+      "title": "CfgId TopN",
+      "transform": "timeseries_to_columns",
+      "type": "table"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 19,
+  "style": "dark",
+  "tags": [
+    "k19_ods"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "OSS",
+  "uid": "R6K_oKfmk",
+  "version": 9
+}

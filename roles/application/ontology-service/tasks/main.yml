@@ -1,0 +1,30 @@
+# tasks file for kafkamanager_install
+- name: scp the file
+  unarchive: src=ontology-service.tar dest={{deploy_path}}/ copy=yes
+#  copy: src=graph-service dest={{deploy_path}}/
+
+- name: cerebro user check
+  shell: cat /etc/passwd
+  register: user_info
+- name: create user
+  shell: useradd {{start_user}}
+  when: user_info.stdout.find(start_user|string) == -1
+
+- name: config graph-service
+  template: src="application.yml" dest="{{deploy_path}}/ontology-service/conf/application.yml" owner={{start_user}} group={{start_user}} mode=0644
+
+- name: chown
+  shell: chown {{start_user}}:{{start_user}} -R {{deploy_path}}/ontology-service
+
+- name: start
+  shell: su - {{start_user}} -c "sh {{deploy_path}}/ontology-service/bin/start.sh"
+
+- name: Check if ontology-service is accessible
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: '{{service_port}}'
+    state: started
+    delay: 25
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 30
+    connect_timeout: 5

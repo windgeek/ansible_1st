@@ -1,0 +1,6 @@
+- name: clickhouse_exporter_install
+  hosts: clickhouse_exporter_hosts
+  remote_user: root
+  roles:
+  - clickhouse_exporter_install
+  tags: clickhouse_exporter_install

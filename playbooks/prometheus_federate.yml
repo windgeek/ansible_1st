@@ -1,0 +1,6 @@
+- name: Install prometheus
+  hosts: prometheus_federate_hosts
+  remote_user: root
+  roles:
+  - prometheus_federate_install
+  tags: prometheus

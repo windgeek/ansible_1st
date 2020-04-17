@@ -1,0 +1,45 @@
+---
+# tasks file for kafkamanager_install
+- name: scp the file
+  unarchive: src={{cerebro_version}}.zip dest=/opt/ copy=yes
+- name: create soft link
+  file: path=/opt/cerebro state=link src=/opt/{{cerebro_version}}
+
+- name: cerebro user check
+  shell: cat /etc/passwd
+  register: info
+- name: user delete
+  shell: userdel -rf cerebro && rm -rf /var/spool/mail/cerebro
+  when: info.stdout.find('cerebro') != -1
+
+- name: cerebro group check
+  shell: cat /etc/group
+  register: group_info
+- name: group delete
+  shell: groupdel cerebro
+  when: group_info.stdout.find('cerebro') != -1
+
+- name: create user
+  shell: useradd cerebro
+- name: config cerebro
+  template: src="application.conf" dest="/opt/{{cerebro_version}}/conf/application.conf" owner=cerebro group=cerebro mode=0644
+- name: chown
+  shell: |
+    chown cerebro:cerebro -R /opt/{{cerebro_version}}
+    chown cerebro:cerebro -R /opt/cerebro
+- name: start
+  shell: su - cerebro -c "nohup /opt/cerebro/bin/cerebro -Dhttp.port=1234 -Dhttp.address={{hostvars[inventory_hostname].ansible_facts.hostname}} &"
+
+- name: Check if cerebro is accessible
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 1234
+    state: started
+    delay: 10
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 15
+    connect_timeout: 5
+
+
+- name: create user
+  shell: useradd cerebro

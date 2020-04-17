@@ -1,0 +1,25 @@
+ 
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434298;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434299;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434300;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434301;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434302;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434303;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434304;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434305;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434306;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434307;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434308;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434309;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434310;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434311;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434312;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434313;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434314;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434315;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434316;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434317;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434318;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434319;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434320;
+ALTER TABLE k18_ods.tbs_ods_ntc_ip_log_local  DROP PARTITION 434321;

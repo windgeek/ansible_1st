@@ -1,0 +1,8 @@
+---
+# tasks file for sys_opt,目录没有也会自动创建
+- name: copy sysopt shell
+  copy: src="sys_opt.sh" dest=/tmp/sys_opt/
+- name: run sys_opt shell
+  shell: sh /tmp/sys_opt/sys_opt.sh
+- name: kill me
+  file: path=/tmp/sys_opt state=absent

@@ -1,0 +1,23 @@
+---
+# tasks file for pm2_install
+- name: unpack the pm2 file
+  unarchive: src=pm2.tar.gz dest=/opt/node/lib/node_modules copy=yes
+
+- name: use pm2
+  shell: ln -s /opt/node-v8.11.2/lib/node_modules/pm2/bin/pm2 /usr/local/bin/pm2
+
+- name: pm2 init
+  shell: pm2 startup
+
+- name: systemctl enable pm2-root
+  shell: systemctl enable pm2-root
+
+- name: Check if pm2 is accessible
+  service:
+    name: pm2-root
+    state: started
+
+
+
+
+

@@ -1,0 +1,28 @@
+---
+# tasks file for kafkamanager_install
+- name: scp the file
+  unarchive: src={{kafka_manager_version}}.zip dest=/opt/ copy=yes
+- name: create soft link
+  file: path=/opt/kafka-manager state=link src=/opt/{{kafka_manager_version}}
+- name: create user
+  shell: useradd kafka-manager
+- name: config kafka-manager
+  template: src="application.conf" dest="/opt/{{kafka_manager_version}}/conf/application.conf" owner=kafka-manager group=kafka-manager mode=0644
+- name: chown
+  shell: |
+    chown kafka-manager:kafka-manager -R /opt/{{kafka_manager_version}}
+    chown kafka-manager:kafka-manager -R /opt/kafka-manager
+- name: start
+  shell: su - kafka-manager -c "nohup /opt/kafka-manager/bin/kafka-manager -Dconfig.file=/opt/kafka-manager/conf/application.conf -Dhttp.port=23333 &"
+- name: Check if Kafka-manager is accessible
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 23333
+    state: started
+    delay: 10
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 15
+    connect_timeout: 5
+
+
+

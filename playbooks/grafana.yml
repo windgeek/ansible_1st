@@ -1,0 +1,6 @@
+- name: Install grafana
+  hosts: grafana_hosts
+  remote_user: root
+  roles:
+  - grafana_install
+  tags: grafana

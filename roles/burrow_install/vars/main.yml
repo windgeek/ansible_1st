@@ -1,0 +1,12 @@
+zk_server: '["10.0.40.1:2181","10.0.40.2:2181","10.0.40.3:2181"]'
+kafka_server: '["10.0.40.4:6667","10.0.40.5:6667","10.0.40.6:6667"]'
+
+burrow_server: '{{ groups.burrow_hosts[0]}}'
+kafka_cluster: 'ontology'
+cluster_name: '[cluster.{{ kafka_cluster }}]'
+consumer_cluster: '[consumer.{{ kafka_cluster }}]'
+consumer_zk: '[consumer.{{ kafka_cluster }}_zk]'
+
+
+
+

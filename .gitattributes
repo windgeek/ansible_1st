@@ -1,0 +1,4 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+*.yml linguist-language=python
+*.sh linguist-language=shell

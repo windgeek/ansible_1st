@@ -1,0 +1,43 @@
+---
+# tasks file for zookeeper_install
+- name: unpack the zookeeper file
+  unarchive: src=zookeeper-3.4.6.tar.gz dest=/opt/ copy=yes
+- name: zookeeper user check
+  shell: cat /etc/passwd
+  register: info
+- name: user delete
+  shell: userdel -rf zookeeper  && rm -rf /var/spool/mail/zookeeper
+  when: info.stdout.find('zookeeper') != -1
+- name: zookeeper group check
+  shell: cat /etc/group
+  register: group_info
+- name: group delete
+  shell: groupdel zookeeper
+  when: group_info.stdout.find('zookeeper') != -1
+- name: create user
+  shell: useradd zookeeper
+- name: install
+  shell: |
+    chown -R zookeeper:zookeeper /opt/zookeeper
+- name: config
+  template: src="templates/zoo.cfg" dest="/opt/zookeeper/conf/zoo.cfg" owner=root group=root mode=0644
+- name: mkdir && chown
+  shell: |
+    mkdir -pv {{dataDir}}
+    mkdir -pv {{dataLogDir}}
+    chown -R zookeeper:zookeeper {{dataDir}} -R
+    chown -R zookeeper:zookeeper {{dataLogDir}} -R
+- name: add myid file
+  shell: echo {{myid}} > {{dataDir}}/myid
+- name: start
+  shell: su - zookeeper -c "sh /opt/zookeeper/bin/zkServer.sh start"
+
+- name: Check if Zookeeper is accessible
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 2181
+    state: started
+    delay: 10
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 60
+    connect_timeout: 5

@@ -1,0 +1,11 @@
+kafka2ckTest_version: test-streaming
+jar_version: test-streaming-jar-with-dependencies.jar
+dataflow_dir: /data1/kafka2ckTest
+kafkaBrokerList: 192.168.162.95:6667,192.168.162.96:6667
+monKafkaBrokerList: 192.168.162.95:6667,192.168.162.96:6667
+#ck的链接地址。由于是测试故只支持单个地址的配置。不支持配置多个ck链接地址。建议配置为分布式库的链接地址
+clickhouseIpPort: k19-bigdata-1:8123
+clickhouseDatabase: k19_distribute
+#ck的用户名和密码，没有配置的填入""
+ck_username: ""
+ck_password: ""

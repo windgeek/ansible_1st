@@ -1,0 +1,36 @@
+---
+# tasks file for influxdb_install
+- name: install influxdb
+  yum: name=influxdb state=present
+- name: mkdir && chown
+  shell: |
+    mkdir -pv /data1/influxdb
+    chown influxdb:influxdb -R /data1/influxdb
+- name: modify influxdb.conf
+  lineinfile:
+    dest: /etc/influxdb/influxdb.conf
+    regexp: 'dir = "/var/lib/influxdb/meta"'
+    line: '   dir = "/data1/influxdb/meta"'
+    backrefs: yes
+- name: modify influxdb.conf
+  lineinfile:
+    dest: /etc/influxdb/influxdb.conf
+    regexp: 'dir = "/var/lib/influxdb/data"'
+    line: '   wal-dir = "/data1/influxdb/data"'
+    backrefs: yes
+- name: modify influxdb.conf
+  lineinfile:
+    dest: /etc/influxdb/influxdb.conf
+    regexp: 'dir = "/var/lib/influxdb/wal"'
+    line: '   dir = "/data1/influxdb/wal"'
+    backrefs: yes
+- name: systemctl restart influxdb
+  shell: systemctl restart influxdb
+- name: Check if influxdb is accessible
+  wait_for:
+    port: 8086
+    state: started
+    delay: 10
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 15
+    connect_timeout: 5

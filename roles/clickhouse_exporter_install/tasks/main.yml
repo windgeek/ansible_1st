@@ -1,0 +1,36 @@
+---
+# tasks file for clickhouse_exporter install
+- name: clickhouse_exporter user check
+  shell: cat /etc/passwd
+  register: info
+- name: user delete
+  shell: userdel -rf clickhouse_exporter && rm -rf /var/spool/mail/clickhouse_exporter
+  when: info.stdout.find('clickhouse_exporter') != -1
+- name: clickhouse_exporter group check
+  shell: cat /etc/group
+  register: group_info
+- name: group delete
+  shell: groupdel clickhouse_exporter
+  when: group_info.stdout.find('clickhouse_exporter') != -1
+- name: create user
+  shell: useradd clickhouse_exporter
+- name: copy clickhouse_exporter file
+  copy: src=clickhouse_exporter dest=/opt/ owner=clickhouse_exporter group=clickhouse_exporter mode=0755
+- name: chown
+  shell: |
+    chown -R clickhouse_exporter:clickhouse_exporter /opt/clickhouse_exporter
+
+- name: add system service
+  template: src="templates/clickhouse_exporter.service" dest="/etc/systemd/system/clickhouse_exporter.service" owner=root group=root mode=0644
+
+- name: clickhouse_exporter server started
+  service:
+    name: clickhouse_exporter
+    enabled: true
+    state: started
+
+- name: Check if clickhouse_exporter is accessible
+  uri:
+    url: http://{{hostvars[inventory_hostname].ansible_default_ipv4.address}}:9116
+    method: GET
+    status_code: 200

@@ -1,0 +1,20 @@
+# tasks file for hosts
+- name: add localhost4
+  local_action: shell echo "127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4" > /tmp/hosts.j2
+  run_once: true
+- name: add localhost6
+  local_action: shell echo "::1         localhost localhost.localdomain localhost6 localhost6.localdomain6" >> /tmp/hosts.j2
+  run_once: true
+- set_fact: ipaddress={{hostvars[inventory_hostname].ansible_default_ipv4.address}}
+- set_fact: hostname={{hostvars[inventory_hostname].ansible_facts.hostname}}
+- name: add host record
+  local_action: shell echo {{ipaddress}} {{hostname}} >> /tmp/hosts.j2
+- name: cp domain_hosts to localhost /tmp
+  copy: src=templates/domain_hosts dest=/tmp/
+  run_once: true
+  delegate_to: localhost
+- name: domain hosts
+  local_action: shell cat /tmp/domain_hosts >> /tmp/hosts.j2
+  run_once: true
+- name: copy hosts.j2 to all
+  template: src="/tmp/hosts.j2" dest="/etc/hosts"

@@ -1,0 +1,41 @@
+kafka:
+  kafkaBrokerList: "{{kafkaBrokerList}}"
+  dataList:
+    - topicName: "K19-ASTANA-NTC-COLLECT-ACCOUNT-LOG"
+      record: '{"cfg_id":63330,"found_time":1560913049,"recv_time":1560913312,"addr_type":4,"d_ip":"87.240.129.133","s_ip":"192.168.5.151","d_port":443,"s_port":54195,"device_id":0,"stream_dir":3,"cap_ip":"192.168.5.73","app_lable":"vkontakte","protocol":"HTTP","username":"Eunice","uuid":"ba1349323d7000c2017"}'
+    - topicName: "K19-ASTANA-NTC-COLLECT-HTTP-LOG"
+      record: '{"cfg_id":63329,"found_time":1560843845,"recv_time":1560844029,"addr_type":4,"d_ip":"217.69.139.200","s_ip":"192.168.5.109","d_port":443,"s_port":63640,"device_id":0,"stream_dir":3,"cap_ip":"192.168.5.73","app_lable":"Browsing","protocol":"HTTP","url":"mail.ru/?json=1&ts89379=1560844001.28690983.27209368.27755254.27209569&ts2827=1560842040&Login=k18123456%40mail.ru&_=1561434410686","req_body_file":"http://192.168.5.74:8057/download_v2/ba112c8a3c90004c003_1","req_body_key":"ba112c8a3c90004c003_1","res_body_file":"http://192.168.5.74:8057/download_v2/ba112c8a3c90004c003_2","res_body_key":"ba112c8a3c90004c003_2","website":"mail.ru","proxy_flag":0,"req_method":"GET","req_uri":"/?json=1&ts89379=1560844001.28690983.27209368.27755254.27209569&ts2827=1560842040&Login=k18123456%40mail.ru&_=1561434410686","res_status_code":"200","Cookie":"mrcu=94D35D06F5C6402F92714B187C2D; p=gY8AADXN4QAA; t=obLD1AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAACAAAYGxAcA; o=k18123456@mail.ru:60:; _ga=GA1.2.2039331844.1560737436; inlineHub=36c456a7b2f7c2c921ae40ac93803b92,27ee94dc9bcd08c546045033aaf71dcf,ccc463cca23ea94619ca82e262c643fb,81eb2e5c90b08d1d25833ef0df696d75,f5d64e0f66f7fc969209334f8f0da916,5f3ab0e2b44b39144ba59b4c25ee602b,613e049c181b4ab9c99f6073cbcd1e92,c68802e3933deac150923db0f1e4daf5,6bc6a6a268dad214161ecd515156aa91,","Referer":"https://mail.ru/","user_agent":"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36","content_type":"application/json; charset=UTF-8","uuid":"ba112c8a3c90004c003"}'
+    - topicName: "K19-ASTANA-NTC-COLLECT-LBS-LOG"
+      record: '{"cfg_id":0,"found_time":1560860686,"recv_time":1560860701,"addr_type":4,"d_ip":"123.125.115.75","s_ip":"192.168.5.96","d_port":443,"s_port":50512,"device_id":0,"stream_dir":3,"cap_ip":"192.168.5.73","app_lable":"BaiDuDiTuAPI","protocol":"HTTP","longitude":"13288183.99","latitude":"3873640.26","coordinate_type":"COORDINATE_TYPE_GCJ02","uuid":"ba11b01c3a7000a5001"}'
+    - topicName: "K19-ASTANA-NTC-COLLECT-MAIL-LOG"
+      record: '{"found_time":1560871262,"recv_time":1560871262,"addr_type":4,"d_ip":"123.126.97.3","s_ip":"192.168.88.88","d_port":25,"s_port":53304,"device_id":0,"stream_dir":3,"cap_ip":"192.168.5.73","protocol":"SMTP","mail_from":"bingbingjie_18@163.com","mail_to":"<2216233838@qq.com>","subject":"สวัสดีสวัสดีสวัสดีสวัสดีสวัสดีสวัสดีสวัสดีสวัสดีสวัส","eml_key":"ba1202bc389000ff001_1","eml_file":"http://192.168.5.74:8057/download_v2/ba1202bc389000ff001_1","uuid":"ba1202bc389000ff001"}'
+    - topicName: "K19-ASTANA-NTC-COLLECT-RADIUS-LOG"
+      record: '{"found_time":1560489169,"recv_time":1560489282,"addr_type":4,"d_ip":"115.168.13.100","s_ip":"115.168.13.1","d_port":1813,"s_port":33044,"device_id":0,"stream_dir":1,"cap_ip":"192.168.5.73","protocol":"Radius","code":4,"nas_ip":"115.168.13.1","framed_ip":"120.41.171.127","account":"CARD","uuid":"ba065a84387005d6000"}'
+    - topicName: "K19-ASTANA-NTC-COLLECT-VOIP-LOG"
+      record: '{"found_time":1560863859,"recv_time":1560863922,"addr_type":4,"d_ip":"212.79.111.155","s_ip":"192.168.88.88","d_port":5060,"s_port":49288,"device_id":0,"stream_dir":3,"cap_ip":"192.168.5.73","app_lable":"MicroSIP","protocol":"SIP","call_id":"6a7f704c53a74bf09eb28a9b3049cf87","request_uri":"iptel.org SIP/2.0","calling_account":"<sip:baifendian@iptel.org>;tag=2d4dea5a81bd4008a2f47b43bb918e90","called_account":"<sip:baifendian@iptel.org>","contacts":"<sip:baifendian@192.168.88.88:49288;ob>","via":"SIP/2.0/UDP 192.168.88.88:49288;rport;branch=z9hG4bKPj62d5c86a449a4a9fbf8744ceb271c5d6","user_agent":"MicroSIP/3.19.14","uuid":"ba11c8e83a300093000"}'
+    - topicName: "K19-ASTANA-NTC-COLLECT-VOIP-LOG"
+      record: '{"found_time":1560863859,"recv_time":1560863922,"addr_type":4,"d_ip":"212.79.111.155","s_ip":"192.168.88.88","d_port":5060,"s_port":49288,"device_id":0,"stream_dir":3,"cap_ip":"192.168.5.73","app_lable":"MicroSIP","protocol":"RTP","call_id":"6a7f704c53a74bf09eb28a9b3049cf87","request_uri":"iptel.org SIP/2.0","calling_account":"<sip:baifendian@iptel.org>;tag=2d4dea5a81bd4008a2f47b43bb918e90","called_account":"<sip:baifendian@iptel.org>","contacts":"<sip:baifendian@192.168.88.88:49288;ob>","via":"SIP/2.0/UDP 192.168.88.88:49288;rport;branch=z9hG4bKPj62d5c86a449a4a9fbf8744ceb271c5d6","user_agent":"MicroSIP/3.19.14","uuid":"ba11c8e83a300093000"}'
+    - topicName: "K19-ASTANA-NTC-CONN-RECORD-LOG"
+      record: '{"cfg_id":63311,"found_time":1560234595,"recv_time":1560234656,"addr_type":4,"d_ip":"203.208.40.34","s_ip":"192.168.88.88","d_port":443,"s_port":64622,"device_id":0,"stream_dir":3,"cap_ip":"192.168.5.73","app_lable":"Google","protocol":"HTTP","c2s_pkt_num":"5","s2c_pkt_num":"1292","c2s_byte_num":"4","s2c_byte_num":"888"}'
+    - topicName: "K19-ASTANA-NTC-COLLECT-NAT-LOG"
+      record: '{"found_time": 1573182524,"recv_time": 1573182524,"addr_type": 4,"d_ip": "10.147.50.2","s_ip": "10.9.8.225","d_port": 9084,"s_port": 9003,"device_id": 0,"stream_dir": 1,"cap_ip": "192.168.5.77","region": "010203","radius_account": "-1","count": 20,"second": 1571064759,"flow_sequence": 3458053014,"proto": 6,"operator": 0,"ip_version": 4,"ipv4_tos": 0,"src_ip": "10.99.92.152","src_natip": "85.117.125.163","dest_ip": "95.100.164.14","dest_natip": "0.0.0.0","src_port": 50500,"src_natport": 22680,"dest_port": 443,"dest_natport": 0,"start_time": 1571042838,"end_time": 1571043159,"in_totalpkg": 432,"in_totalbyte": 118912,"out_totalpkg": 407,"out_totalbyte": 291175,"src_vpn": "0","dst_vpn": "0","uuid": "bb89b8783al0O012019M"}'
+    - topicName: "K19-ASTANA-DM-CONV-LOG"
+      record: '"lab-tera-1","2019-03-31T07:15:00+0000","2019-03-31T07:20:00+0000",0::FFFF:92.47.14.22,-1,"Yandex","Fallback","Fallback","Web Applications",0,0,0,-1,"Generic",-1,-1,-1,"GENERIC","GENERIC",-1,"Un-Tethered",-1,-1,"Web Applications",-1,-1,1,1,-1,-1,0,2267,0,0,0,0,0,0,-1,-1,0,-1,-1,0,0,-1,-1,-1,-1,-1'
+    - topicName: "K19-ASTANA-DM-HDR-LOG"
+      record: '"lab-tera-1","2019-03-31T07:09:54+0000",,0,0::FFFF:212.247.224.222,11976,0::FFFF:92.223.99.99,80,"HTTP DownloadManager","GET","dl-wotblitz-gc.wargaming.net","/dlc/smart_dlc/5.9.0.644_2370343_adreno.dvpk",668,0,140,1154,"206",1,31,,,,,"HTTP","Generic",-1,-1,-1,"GENERIC","GENERIC",-1,"Fallback","Fallback","File Transfer",,-1,-1,'
+clickHouse:
+  ipPort: "{{clickhouseIpPort}}"
+  username: {{ck_username}}
+  password: {{ck_password}}
+  database: "{{clickhouseDatabase}}"
+  tableList:
+    - ntc_collect_account_log
+    - ntc_collect_http_log
+    - ntc_collect_im_log
+    - ntc_collect_lbs_log
+    - ntc_collect_mail_log
+    - ntc_collect_nat_log
+    - ntc_collect_radius_log
+    - ntc_collect_voip_data_log
+    - ntc_collect_voip_log
+    - ntc_conn_record_log

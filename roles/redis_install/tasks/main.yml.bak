@@ -1,0 +1,27 @@
+---
+# install gcc
+- name: yum install gcc
+  yum: name=gcc-c++ state=present
+# copy redis package
+- name: unpack the redis file
+  unarchive: src={{redis_version}}.tar.gz dest=/opt copy=yes
+# compile
+- name: make && make install
+  shell: |
+    cd /opt/redis-5.0.2
+    make -j8 & make install -j8
+- name: create dir
+  file: path=/opt/redis-5.0.2/redis-cluster/7000 state=directory owner=root group=root mode=0755
+- name: create dir
+  file: path=/opt/redis-5.0.2/redis-cluster/7001 state=directory owner=root group=root mode=0755
+- name: copy & change profile-7000
+  template: src=redis7000.conf.j2 dest=/opt/redis-5.0.2/redis-cluster/7000/redis.conf owner=root group=root mode=0755
+- name: copy & change profile-7001
+  template: src=redis7001.conf.j2 dest=/opt/redis-5.0.2/redis-cluster/7001/redis.conf owner=root group=root mode=0755
+- name: start redis server
+  shell: |
+    /opt/redis-5.0.2/src/redis-server /opt/redis-5.0.2/redis-cluster/7000/redis.conf
+    /opt/redis-5.0.2/src/redis-server /opt/redis-5.0.2/redis-cluster/7001/redis.conf
+- name: create redis cluster
+  shell:
+    /opt/redis-5.0.2/src/redis-cli --cluster create  {{redis1}}:7000 {{redis2}}:7001 {{redis2}}:7000 {{redis3}}:7001 {{redis3}}:7000 {{redis1}}:7001 --cluster-replicas 1

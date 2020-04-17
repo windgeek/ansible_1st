@@ -1,0 +1,29 @@
+- name: get master file and position 
+  mysql_replication:
+    login_host: "{{ groups.mysql_hosts[0] }}"
+    login_user: "root"
+    login_password: "baifendian" 
+    mode: getmaster
+  register: log_file_pos
+  when: inventory_hostname == groups.mysql_hosts[1]
+    
+- name: MySQL | change master status 
+  command: "
+    mysql -uroot -pbaifendian -e
+    \"
+    STOP SLAVE;
+    CHANGE MASTER TO MASTER_HOST='{{ groups.mysql_hosts[0] }}', MASTER_USER='repl', MASTER_PASSWORD='baifendian', MASTER_LOG_FILE='{{ log_file_pos.File }}', MASTER_LOG_POS = {{ log_file_pos.Position }};
+    START SLAVE;
+    \"
+    "
+  when: inventory_hostname == groups.mysql_hosts[1]
+
+- name: copy si init sql
+  copy: src=public_opinion.sql dest=/tmp
+- name: copy system init sql
+  copy: src=system_manager.sql dest=/tmp
+- name: init database
+  shell: |
+    mysql -uroot -pbaifendian public_opinion < /tmp/public_opinion.sql 
+    mysql -uroot -pbaifendian system_manager < /tmp/system_manager.sql
+  when: inventory_hostname == groups.mysql_hosts[0]

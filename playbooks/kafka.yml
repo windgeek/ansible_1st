@@ -1,0 +1,6 @@
+- name: Install kafka
+  hosts: kafka_hosts
+  remote_user: root
+  roles:
+  - kafka_install
+  tags: kafka_install

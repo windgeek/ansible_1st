@@ -1,0 +1,11 @@
+#tcp端口
+shard_port: 9000
+data_dir: '/data1/clickhouse-server'
+hosts_list: ["hostname-1","hostname-2"]
+#ck集群名称
+network_read_clutser_name: clickhouse_tse_network_read
+network_write_clutser_name: clickhouse_tse_network_write
+other_read_clutser_name: clickhouse_tse_other_read
+other_write_clutser_name: clickhouse_tse_other_write
+#zk port
+zk_prot: 2181

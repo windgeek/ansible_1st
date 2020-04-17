@@ -1,0 +1,6 @@
+- name: Install npm
+  hosts: npm_hosts
+  remote_user: root
+  roles:
+  - npm_install
+  tags: npm

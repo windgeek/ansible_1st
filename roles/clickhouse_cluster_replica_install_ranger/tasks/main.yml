@@ -1,0 +1,27 @@
+---
+# tasks file for clickhouse_install
+
+- name: install clickhouse
+  shell: |
+    yum -y install clickhouse-server.x86_64
+    yum -y install clickhouse-client.x86_64
+
+- name: config
+  template: src="config.xml" dest="/etc/clickhouse-server/config.xml" owner=root group=root mode=0644
+- name: users
+  template: src="users.xml" dest="/etc/clickhouse-server/users.xml" owner=root group=root mode=0644
+- name: metrika
+  template: src="metrika.xml.j2" dest="/etc/clickhouse-server/metrika.xml" owner=root group=root mode=0644
+- name: mkdir
+  shell: mkdir -pv /var/run/clickhouse-server
+- name: start
+  shell: clickhouse-server --config-file=/etc/clickhouse-server/config.xml --daemon
+- name: Check if Clickhouse is accessible
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 9000
+    state: started
+    delay: 10
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 15
+    connect_timeout: 5

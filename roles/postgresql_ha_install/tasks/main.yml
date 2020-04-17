@@ -1,0 +1,145 @@
+---
+# tasks file for postgresql_install
+- name: unpack the postgresql file
+  unarchive: src=postgresql-9.6.3.tar.gz dest=/tmp copy=yes
+
+- name: create group
+  group: name=postgres state=present system=yes
+
+- name: create user
+  user: name=postgres group=postgres home=/home/postgres
+
+- name: set {{postgres_system_user}} password
+  shell: "echo {{postgres_system_password}} | passwd --stdin {{postgres_system_user}}"
+
+- name: Install dependency
+  yum: name={{item.name}} state={{item.state|default("installed")}}
+  with_items:
+    - name: "gcc"
+    - name: "gcc-c++"
+    - name: "readline-devel"
+    - name: "zlib-devel"
+
+- name: make && make instal
+  shell: |
+    cd /tmp/{{postgresql_version}}
+    ./configure --prefix={{postgresql_install_path}}
+    cd /tmp/{{postgresql_version}}
+    make && make install
+
+- name: wait for something
+  pause: seconds=5
+
+- name: config the env var
+  shell: |
+    echo -e "\nexport POSTGRESQL_HOME='{{postgresql_install_path}}'\nexport PATH={{postgresql_install_path}}/bin:\$PATH\nexport PGDATA='{{data_path}}'\n" > /etc/profile.d/postgresql.sh
+    source /etc/profile.d/postgresql.sh
+    source /etc/profile
+
+- name: Create directory
+  file: path={{data_path}} state=directory owner=postgres group=postgres mode=0755 recurse=yes
+
+- name: Create directory
+  file: path={{postgresql_install_path}} state=directory owner=postgres group=postgres mode=0755 recurse=yes
+
+- name: Creates directory
+  file: path={{log_path}} state=directory owner=postgres group=postgres mode=0755 recurse=yes
+
+- name: init database
+  shell: su - postgres -c "initdb"
+  when: inventory_hostname == groups.postgresql_ha_hosts[0]
+
+- name: create soft link
+  file: src="{{item.org}}" dest="{{item.term}}" state=link
+  loop:
+    - {org: "/opt/postgresql/lib/libpq.so.5", term: "/usr/lib/libpq.so.5"}
+    - {org: "/opt/postgresql/lib/libpq.so.5", term: "/usr/lib64/libpq.so.5"}
+
+- name: config
+  template: src="templates/{{item.key}}" dest="{{item.value}}" owner=postgres group=postgres mode=0644
+  with_dict:
+    - {"pg_hba.conf":"{{data_path}}/pg_hba.conf"}
+    - {"postgresql.conf":"{{data_path}}/postgresql.conf"}
+  when: inventory_hostname == groups.postgresql_ha_hosts[0]
+
+
+- name: start master database
+  shell: su - postgres -c "pg_ctl -D {{data_path}} -l {{log_path}}/pg_server.log start"
+  when: inventory_hostname == groups.postgresql_ha_hosts[0]
+
+- name: wait for thing
+  pause: seconds=10
+
+- name: config
+  template: src="create_user_change_password.sql" dest="/tmp/" owner=postgres group=postgres mode=0644
+  when: inventory_hostname == groups.postgresql_ha_hosts[0]
+
+- name: create database user
+  shell: su - postgres -c "psql -f /tmp/create_user_change_password.sql"
+  when: inventory_hostname == groups.postgresql_ha_hosts[0]
+
+- name: sync data from {{ groups.postgresql_ha_hosts[0] }}
+  shell: su - postgres -c "pg_basebackup -D $PGDATA -Fp -Xs -v -P -h "{{ groups.postgresql_ha_hosts[0] }}" -p 5432 -U {{replication_user}}"
+  when: inventory_hostname == groups.postgresql_ha_hosts[1]
+
+- name: wait for thing
+  pause: seconds=10
+
+- name: config
+  template: src="templates/{{item.key}}" dest="{{item.value}}" owner=postgres group=postgres mode=0644
+  with_dict:
+    - {"pg_hba.conf":"{{data_path}}/pg_hba.conf"}
+    - {"postgresql.conf":"{{data_path}}/postgresql.conf"}
+    - {"recovery.conf":"{{data_path}}/recovery.conf"}
+  when: inventory_hostname == groups.postgresql_ha_hosts[1]
+
+- name: chown backup database
+  file: path={{data_path}} state=directory owner=postgres group=postgres mode=0700 recurse=yes
+  when: inventory_hostname == groups.postgresql_ha_hosts[1]
+
+- name: start backup database
+  shell: su - postgres -c "pg_ctl -D {{data_path}} -l {{log_path}}/pg_server.log start"
+  when: inventory_hostname == groups.postgresql_ha_hosts[1]
+
+- name: Check if Postgresql is accessible
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 5432
+    state: started
+    delay: 10
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 15
+    connect_timeout: 5
+
+#uninstall
+#pg_ctl stop
+# sleep 5s
+#rm -rf /opt/postgresql
+#rm -rf /etc/profile.d/postgresql.sh
+#rm -rf /data1/postgresql
+#rm -rf /tmp/create_user_change_password.sql
+#rm -rf /tmp/postgresql-9.6.3
+#
+
+#注意：
+#这个数据库没有主主模式，只有主备模式，而且切换起来复杂
+#情况1: master宕机无法恢复
+# - master宕机后，standby不会自动的切换成master，必须手动切换，如果不切换的话不能写数据(只读模式)
+# - 手动切换的命令如下：su - postgres -c "pg_ctl promote"
+# - 一旦切换完成后，之前宕机的master并不是重启就可以了，需要重新制作standby的过程，先手动在宕机的服务器上删除 $PGDATA 目录下的所有文件
+# - 然后执行如下命令从新的主库中拷贝数据：pg_basebackup -D $PGDATA -Fp -Xs -v -P -h "[new-master-ip]" -p 5432 -U replica
+# - 然后在新的主库的 $PGDATA 目录下新建 recovry.conf 文件。内容如下：
+#   standby_mode='on'
+#   recovery_target_timeline = 'latest'
+#   primary_conninfo='host=[new-master-ip] port=5432 user=replica password=replica'  #用户：是之前用来异步备份的用户就行
+# - 最后重启新的备用数据库才算完成了一次主备切换
+#
+#情况2: 手动停止master
+#  - 重启即可
+#
+#情况3: standby宕机
+#  - 重启即可
+#
+#PostgreSQL热备(HOT-Standby)如果主库出现异常，备库如何激活，来替换主库工作，有2种方式可以选择：
+#1、备库配置文件 recovery.conf 中有配置项 trigger_file ，它是激活从库的触发文件，当它存在就会激活从库。
+#2、在备库上执行 pg_ctl promote 命令激活。

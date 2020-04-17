@@ -1,0 +1,6 @@
+- name: Install zookeeper
+  hosts: zookeeper_hosts
+  remote_user: root
+  roles:
+  - zookeeper_install
+  tags: zookeeper_install

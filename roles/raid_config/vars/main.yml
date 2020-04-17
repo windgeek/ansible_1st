@@ -1,0 +1,3 @@
+---
+# vars file for raid_config
+#  mount_sh: "{{ raid_sh }}"

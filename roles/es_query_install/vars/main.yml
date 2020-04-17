@@ -1,0 +1,18 @@
+cluster_name: query
+http_port: 9200
+tcp_port: 9300
+unicast_hosts: '["172.24.9.46:9300","172.24.9.47:9300"]'
+#多路径请配置成这种形式：/data1/elasticsearch/data,/data2/elasticsearch/data
+path_data: /data1/elasticsearch/data
+#路径请配置成这种形式：/{data1,data2}/elasticsearch
+path_datac: /data1/elasticsearch
+path_logs: /data1/elasticsearch/logs
+es_version: elasticsearch-6.7.2
+minimum_master_nodes: 1
+max_local_storage_nodes: 3
+Xms_memery: 2g
+Xmx_memery: 2g
+seed_map:
+#添加协调节点
+  tse: '172.24.9.48:9300'
+  ala: '172.18.9.53:9300,172.18.9.54:9300'

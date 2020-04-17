@@ -1,0 +1,62 @@
+---
+#创建用户并互相免密
+#ansible-playbook /etc/ansible/playbooks/create_user.yml --extra-vars "user=test password=123456"
+- name: create ssh users
+  hosts: all
+  remote_user: root
+  gather_facts: no
+  vars:
+    user: 'k18'
+    password: 'k18k18'
+
+
+  tasks:
+    - name: check the user is root or not
+      fail: msg="you shuldn't define var user as root"
+      when: user == "root"
+
+    - name: delete directory /home/{{user}}/.ssh
+      file: path="/home/{{user}}/.ssh" state=absent
+
+    - name: delete file /tmp/{{user}}_authorized_keys
+      file: path="/tmp/{{user}}_authorized_keys" state=absent
+      run_once: true
+      delegate_to: localhost
+
+    - name: create user {{user}}
+      user: name={{user}} state=present generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa
+
+    - name: set {{user}} password
+      shell: "echo {{password}} | passwd --stdin {{user}}"
+
+#    - name: add sudo
+#      lineinfile:
+#        dest: /etc/sudoers
+#        line: "{{user}} ALL=(ALL) ALL"
+
+    - name: collect id_rsa.pub from all machine for user {{user}}
+      shell: cat /home/{{user}}/.ssh/id_rsa.pub
+      register: sshinfo
+    - set_fact: sshpub={{sshinfo.stdout}}
+
+    - name: save id_rsa.pub in tmp file /tmp/{{user}}_authorized_keys
+      local_action: shell echo {{sshpub}} >> /tmp/{{user}}_authorized_keys
+
+    - name: copy authorized_keys to dest
+      template: src=/tmp/{{user}}_authorized_keys dest=/home/{{user}}/.ssh/authorized_keys mode=0600 owner={{user}} group={{user}}
+
+    - name: delete file /tmp/{{user}}_authorized_keys
+      file: path="/tmp/{{user}}_authorized_keys" state=absent
+      run_once: true
+      delegate_to: localhost
+
+#    - name: root login forbidden
+#      lineinfile:
+#        dest: "/etc/ssh/sshd_config"
+#        regexp: "PermitRootLogin"
+#        line: "PermitRootLogin no"
+#
+#    - name: restart sshd
+#      service:
+#        name: sshd
+#        state: restarted

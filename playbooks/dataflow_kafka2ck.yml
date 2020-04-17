@@ -1,0 +1,6 @@
+- name: Install dataflow_kafka2ck
+  hosts: dataflow_kafka2ck_hosts
+  remote_user: root
+  roles:
+  - dataflow_kafka2ck
+  tags: dataflow_kafka2ck

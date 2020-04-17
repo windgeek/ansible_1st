@@ -1,0 +1,46 @@
+---
+# tasks file for kafka2ckTest
+- name: check user
+  stat: path=/home/k18
+  register: k18_exist
+- name: create user
+  shell: useradd k18 && echo 'k18k18' | passwd --stdin k18
+  when: k18_exist.stat.exists == false
+- name: check dataflowdir
+  stat: path={{dataflow_dir}}
+  register: dir_exist
+- name: create dataflow_dir
+  shell: mkdir -p {{dataflow_dir}}
+  when: dir_exist.stat.exists == false
+- name: unpack the kafka2ckTest file
+  unarchive: src={{kafka2ckTest_version}}.zip dest={{dataflow_dir}} copy=yes
+- name: chown
+  shell: chown k18:k18 -R {{dataflow_dir}}
+- name: copy config to client
+  template: src=conf.yaml dest={{dataflow_dir}}/{{kafka2ckTest_version}}/conf owner=k18 group=k18 mode=0755
+- name: copy Data2Ck start script to client
+  template: src=templates/Data2Ck.sh dest={{dataflow_dir}}/{{kafka2ckTest_version}}/bin owner=k18 group=k18 mode=0755
+- name: copy Data2Kafka start script to client
+  template: src=templates/Data2Kafka.sh dest={{dataflow_dir}}/{{kafka2ckTest_version}}/bin owner=k18 group=k18 mode=0755
+- name: start check task
+  shell: su k18 -c "sh {{dataflow_dir}}/{{kafka2ckTest_version}}/bin/Data2Ck.sh"
+  register: result1
+- name: Show debug info
+    debug: var=result1 verbosity=0
+- pause:
+    seconds: 40
+- name: start check task
+  shell: su k18 -c "nohup sh {{dataflow_dir}}/{{kafka2ckTest_version}}/bin/Data2Kafka.sh > /dev/null &"
+  register: result2
+- name: Show debug info
+    debug: var=result2 verbosity=0
+- pause:
+    seconds: 40
+- name: start check task
+  shell: su k18 -c "sh {{dataflow_dir}}/{{kafka2ckTest_version}}/bin/Data2Ck.sh"
+  register: result3
+- name: Show debug info
+    debug: var=result3 verbosity=0
+- pause:
+    seconds: 40
+

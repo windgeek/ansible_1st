@@ -1,0 +1,6 @@
+- name: Install keepalived_proxy
+  hosts: keepalived_proxy_hosts
+  remote_user: root
+  roles:
+  - keepalived_proxy_install
+  tags: keepalived_proxy

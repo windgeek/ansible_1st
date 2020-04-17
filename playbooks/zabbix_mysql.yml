@@ -1,0 +1,6 @@
+- name: Install MySQL
+  hosts: zabbix_server,zabbix_proxy
+  remote_user: root
+  roles:
+  - mysql_install
+  tags: mysql

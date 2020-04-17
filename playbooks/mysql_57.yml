@@ -1,0 +1,6 @@
+- name: Install MySQL
+  hosts: mysqlha_hosts
+  remote_user: root
+  roles:
+  - mysql57_install
+  - mysql_set_slave

@@ -1,0 +1,10 @@
+data_dirss: /data1/mysqldb
+data_dirs: /data1/mysqldb/3306
+data_dir: /data1/mysqldb/3306/data
+log_path: /data1/mysqldb/3306/log
+pid_file: /data1/mysqldb/3306/run/mysqld.pid
+log_bin: /data1/mysqldb/3306/log/binlog/mysql-bin
+relay_log_index: /data1/mysqldb/3306/relay_index_log
+root_pass: k18k18
+servent_pass: k18k18
+innodb_buffer_pool_size: 4G

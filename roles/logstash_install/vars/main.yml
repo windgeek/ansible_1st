@@ -1,0 +1,23 @@
+http_port: 9600
+logstash_version: logstash-6.7.2
+collection_conf_dir: '/opt/logstash/collection_conf'
+#只配置一个节点，因为开启了嗅探配置
+elasticsearch_hosts: '["http://172.24.9.46:9200"]'
+path_data: '/data1/logstash'
+#监控目录的路径，上层目录要和sftp的数据路径一致
+conv_file_path: '/data1/allot/conv'
+hdr_file_path: '/data1/allot/hdr'
+logstash_sincedb: 'logstash_sincedb'
+
+#conv_bootstrap_servers: "172.24.9.48:6667,172.24.9.49:6667,172.24.9.50:6667"
+#hdr_bootstrap_servers: "172.24.9.48:6667,172.24.9.49:6667,172.24.9.50:6667"
+#conv_bootstrap_servers: "172.24.9.52:6667,172.24.9.53:6667,172.24.9.54:6667"
+#hdr_bootstrap_servers: "172.24.9.52:6667,172.24.9.53:6667,172.24.9.54:6667"
+conv_bootstrap_servers: "172.24.9.56:6667,172.24.9.57:6667,172.24.9.58:6667"
+hdr_bootstrap_servers: "172.24.9.56:6667,172.24.9.57:6667,172.24.9.58:6667"
+
+conv_topic_id: "K19-ASTANA-DM-CONV-LOG"
+hdr_topic_id: "K19-ASTANA-DM-HDR-LOG"
+Xms_memery: 2g
+Xmx_memery: 2g
+pipeline_batch_size: 3000

@@ -1,0 +1,8 @@
+- name: Sys Opt
+  hosts: sys_opt_hosts
+  remote_user: root
+  roles:
+  - sys_opt
+  tags: sys_opt
+
+

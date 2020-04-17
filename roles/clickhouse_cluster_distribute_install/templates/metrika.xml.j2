@@ -1,0 +1,55 @@
+<yandex>
+    <clickhouse_remote_servers>
+
+        <!-- distribute cluster -->
+        <{{clickhouse_cluster_distribute}}>
+{% for shards in shard_list %}
+
+          <!-- shard {{loop.index}} -->
+          <shard>
+              <internal_replication>true</internal_replication>
+    {% for hostname in shards %}
+              <replica>
+                    <host>{{hostname}}</host>
+                    <port>{{shard_port}}</port>
+              </replica>
+    {% endfor %}
+           </shard>
+
+{% endfor %}
+        </{{clickhouse_cluster_distribute}}>
+
+        <!-- monitor cluster -->
+        <{{clickhouse_cluster_monitor}}>
+{% for hostname in hosts_list %}
+            <shard>
+                <internal_replication>true</internal_replication>
+                    <replica>
+                        <host>{{hostname}}</host>
+                        <port>{{shard_port}}</port>
+                    </replica>
+             </shard>
+{% endfor %}
+        </{{clickhouse_cluster_monitor}}>
+
+    </clickhouse_remote_servers>
+
+
+
+
+
+<!-- 数据压缩算法  -->
+    <clickhouse_compression>
+        <case>
+                <min_part_size>10000000000</min_part_size>
+                <min_part_size_ratio>0.01</min_part_size_ratio>
+                <method>lz4</method>
+        </case>
+    </clickhouse_compression>
+
+    <networks>
+        <ip>::/0</ip>
+    </networks>
+
+
+</yandex>

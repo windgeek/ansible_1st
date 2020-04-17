@@ -1,0 +1,18 @@
+- name: Install es
+  hosts: es_hosts
+  remote_user: root
+  roles:
+  - es_install
+  tags: es
+- name: Install es_co
+  hosts: es_co_hosts
+  remote_user: root
+  roles:
+  - es_co_install
+  tags: es_co
+- name: Install es_query
+  hosts: es_query_hosts
+  remote_user: root
+  roles
+  - es_query_install
+  tags: es_query_install

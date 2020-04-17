@@ -1,0 +1,5 @@
+redis_version: redis-5.0.2
+redis1: 172.24.9.56
+redis2: 172.24.9.57
+redis3: 172.24.9.58
+redis_master: 172.24.9.56

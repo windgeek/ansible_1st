@@ -1,0 +1,6 @@
+- name: ntp_server
+  hosts: ntp_server
+  remote_user: root
+  roles:
+  - ntp_server
+  tags: ntp_server

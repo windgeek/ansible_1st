@@ -1,0 +1,59 @@
+---
+
+- name: install zabbix-proxy-mysql
+  yum: name=zabbix-proxy-mysql  state=present
+
+- name: copy create_proxy_user.sql
+  copy: src=create_proxy_user.sql dest=/etc/zabbix/
+- name: create zabbix_proxy database
+  shell: mysql -uroot -pk19k19 < /etc/zabbix/create_proxy_user.sql
+- name: init mysql data
+  shell: zcat /usr/share/doc/zabbix-proxy-mysql-3.0.22/schema.sql.gz | mysql -uzabbix_proxy -pzabbix_proxy zabbix_proxy
+
+- name: modify zabbix_proxy.conf
+  lineinfile:
+    dest: /etc/zabbix/zabbix_proxy.conf
+    regexp: 'Server=127.0.0.1'
+    line: 'Server={{ zabbix_server }}'
+    backrefs: yes
+
+- name: modify zabbix_proxy.conf
+  lineinfile:
+    dest: /etc/zabbix/zabbix_proxy.conf
+    regexp: 'Hostname=Zabbix proxy'
+    line: 'Hostname={{ hostname }}'
+    backrefs: yes
+
+- name: modify zabbix_proxy.conf
+  lineinfile:
+    dest: /etc/zabbix/zabbix_proxy.conf
+    regexp: 'DBUser=zabbix'
+    line: 'DBUser=zabbix_proxy'
+    backrefs: yes
+
+
+- name: modify zabbix_proxy.conf
+  lineinfile:
+    dest: /etc/zabbix/zabbix_proxy.conf
+    regexp: '# DBPassword='
+    line: 'DBPassword=zabbix_proxy'
+    backrefs: yes
+
+- name: modify zabbix_proxy.conf
+  lineinfile:
+    dest: /etc/zabbix/zabbix_proxy.conf
+    regexp: '# DBSocket=/tmp/mysql.sock'
+    line: 'DBSocket=/tmp/mysql.sock'
+    backrefs: yes
+
+- name: systemctl start zabbix-proxy
+  shell: systemctl start zabbix-proxy
+
+- name: Check if zabbix-proxy is accessible
+  wait_for:
+    port: 10051
+    state: started
+    delay: 10
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 15
+    connect_timeout: 5

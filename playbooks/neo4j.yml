@@ -1,0 +1,6 @@
+- name: Install Neo4j
+  hosts: neo4j_hosts
+  remote_user: root
+  roles:
+  - neo4j_install
+  tags: neo4j

@@ -1,0 +1,6 @@
+- name: Install tabix
+  hosts: tabix_hosts
+  remote_user: root
+  roles:
+  - tabix_install
+  tags: tabix

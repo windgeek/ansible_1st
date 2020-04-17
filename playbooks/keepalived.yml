@@ -1,0 +1,6 @@
+- name: Install keepalived
+  hosts: keepalived_hosts
+  remote_user: root
+  roles:
+  - keepalived_install
+  tags: keepalived

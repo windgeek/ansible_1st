@@ -1,0 +1,4 @@
+#建立
+create index on :node(obj_id)
+#查询
+:schema

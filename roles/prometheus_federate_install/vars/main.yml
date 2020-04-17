@@ -1,0 +1,18 @@
+start_user: "prometheus"
+exec_file: "/opt/prometheus/prometheus"
+config_file: "/opt/prometheus/prometheus.yml"
+tsdb_path: "/data1/prometheus"
+prometheus_version: "prometheus-2.12.0.linux-amd64"
+web_uri_configs: '["10.0.40.13:9090"]'
+#数据过期时间
+data_retention_time: 60d
+
+#被采集的下层promrtheus地址
+promrtheus_node:
+  - "10.0.40.14:9090"
+  - "10.0.40.15:9090"
+
+#被采集的下层promrtheus的job名称
+metrics:
+  - "linux_metric"
+  - "clickhouse_metric"

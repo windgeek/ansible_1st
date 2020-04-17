@@ -1,0 +1,9 @@
+- name: Sys Opt
+  hosts: sys_opt_hosts
+  remote_user: root
+  roles:
+  - sys_opt
+  tags: sys_opt
+- import_playbook: raid_config.yml
+- import_playbook: auto_mount.yml
+- import_playbook: ntp_install.yml

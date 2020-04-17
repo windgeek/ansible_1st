@@ -1,0 +1,6 @@
+- name: Install Postgresql
+  hosts: postgresql_hosts
+  remote_user: root
+  roles:
+  - postgresql_install
+  tags: postgresql

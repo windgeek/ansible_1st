@@ -1,0 +1,7 @@
+#所有主机会向这台主机发送同步时间请求
+ntp_server: 172.24.9.45
+#network_segment 允许向ntp server同步时间的网段
+network_segment: 0.0.0.0
+#设置所有/etc/ansible/hosts中[ntp_hosts]标签中主机的时区
+timezone: 'Asia/Shanghai'
+#timezone: 'Asia/Almaty'

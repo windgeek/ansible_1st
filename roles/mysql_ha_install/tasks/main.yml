@@ -1,0 +1,147 @@
+---
+# tasks file for mysql_install
+- name: unpack the MySQL file
+  unarchive: src=mysql-5.6.39-linux-glibc2.12-x86_64.tar.gz dest=/usr/local copy=yes
+
+- name: create group
+  group: name=mysql state=present system=yes
+
+- name: create user
+  user: name=mysql group=mysql home=/home/mysql
+
+- name: set mysql password
+  shell: "echo mysql | passwd --stdin mysql"
+
+- name: install
+  shell: |
+    ln -s /usr/local/mysql-5.6.39-linux-glibc2.12-x86_64 /usr/local/mysql
+    chown -R mysql:mysql usr/local/mysql*
+    cd /usr/local
+    chown -R mysql:mysql mysql*
+
+- name: config master
+  template: src="templates/my01.cnf.j2" dest="/etc/my.cnf" owner=root group=root mode=0644
+  when: inventory_hostname == groups.mysql_ha_hosts[0]
+
+#如果是单机模式注释掉 - name: config slave 部分
+- name: config slave
+  template: src="templates/my02.cnf.j2" dest="/etc/my.cnf" owner=root group=root mode=0644
+  when: inventory_hostname == groups.mysql_ha_hosts[1]
+
+- name: autostart config
+  shell: |
+    cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld
+    chown -R mysql:mysql /etc/my.cnf /etc/init.d/mysqld
+
+- name: Install dependency
+  yum: name={{item.name}} state={{item.state|default("installed")}}
+  with_items:
+    - name: "autoconf"
+    - name: "libaio*"
+    - name: "perl-DBI"
+    - name: "perl-Data-Dumper.x86_64"
+    - name: "MySQL-python"
+
+- name: mkdir && touch
+  shell: |
+    mkdir -p {{data_dirs}}/{log/{binlog,error,general,innodb,relay,slow},run,data,innodb,proc,tmp,relay_index_log}
+    touch {{pid_file}}
+    touch {{relay_log_index}}/slave-relay-bin.index
+    chown -R mysql.mysql {{data_dirss}} -R
+    chmod -R 770 {{data_dirss}}
+
+- name: init && start
+  shell: |
+    /usr/local/mysql/scripts/mysql_install_db --user=mysql --defaults-file=/etc/my.cnf  --basedir=/usr/local/mysql --datadir={{data_dir}}
+    ln -s /usr/local/mysql/bin/mysqld /usr/bin/mysqld
+    systemctl daemon-reload
+    systemctl start mysqld
+
+- name: environment
+  shell: |
+    echo -e 'export MYSQL_HOME=/usr/local/mysql\nexport PATH=${MYSQL_HOME}/bin:$PATH'> /etc/profile.d/mysql.sh
+    source /etc/profile.d/mysql.sh
+
+- name: environment source
+  shell: source /etc/profile
+
+- name: autostart
+  shell: |
+    chkconfig --add mysqld
+    chkconfig mysqld on
+
+- name: copy userinit shell
+  template: src="change.sh" dest=/usr/local/mysql/
+
+- name: run change shell
+  shell: sh /usr/local/mysql/change.sh
+
+- name: Check if Mysql is accessible
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 3306
+    state: started
+    delay: 5
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 10
+    connect_timeout: 5
+
+
+#如果是单机部署注释掉下面所有
+#将mysql1设置成mysql2的主服务器
+- name: get master file and position
+  mysql_replication:
+    login_host: "{{ groups.mysql_ha_hosts[0] }}"
+    login_user: "root"
+    login_password: "{{root_pass}}"
+    mode: getmaster
+  register: log_file_pos_one
+  when: inventory_hostname == groups.mysql_ha_hosts[1]
+
+- name: MySQL | change master status
+  command: "
+    mysql -uroot -p{{root_pass}} -e
+    \"
+    STOP SLAVE;
+    CHANGE MASTER TO MASTER_HOST='{{ groups.mysql_ha_hosts[0] }}', MASTER_USER='servent', MASTER_PASSWORD='{{servent_pass}}', MASTER_LOG_FILE='{{ log_file_pos_one.File }}', MASTER_LOG_POS = {{ log_file_pos_one.Position }};
+    START SLAVE;
+    \"
+    "
+  when: inventory_hostname == groups.mysql_ha_hosts[1]
+
+- name: wait for complete sync
+  pause: seconds=10
+
+#如果只开启主从复制，而不是主主复制，则注释掉下面所有
+#将mysql2设置成mysql1的主服务器
+- name: get master file and position
+  mysql_replication:
+    login_host: "{{ groups.mysql_ha_hosts[1] }}"
+    login_user: "root"
+    login_password: "{{root_pass}}"
+    mode: getmaster
+  register: log_file_pos_two
+  when: inventory_hostname == groups.mysql_ha_hosts[0]
+
+- name: MySQL | change master status
+  command: "
+    mysql -uroot -p{{root_pass}} -e
+    \"
+    STOP SLAVE;
+    CHANGE MASTER TO MASTER_HOST='{{ groups.mysql_ha_hosts[1] }}', MASTER_USER='servent', MASTER_PASSWORD='{{servent_pass}}', MASTER_LOG_FILE='{{ log_file_pos_two.File }}', MASTER_LOG_POS = {{ log_file_pos_two.Position }};
+    START SLAVE;
+    \"
+    "
+  when: inventory_hostname == groups.mysql_ha_hosts[0]
+
+#uninstall
+#systemctl stop mysqld
+#sleep 5s
+#rm -rf /usr/local/mysql*
+#rm -rf /etc/my.cnf
+#rm -rf /etc/init.d/mysqld
+#rm -rf /data1/mysqldb
+#rm -rf /usr/bin/mysqld
+#rm -rf /etc/profile.d/mysql.sh
+#rm -rf /tmp/mysql.sock
+#ps aux | grep mysql | grep -v grep | awk '{print $2}' | xargs kill -9

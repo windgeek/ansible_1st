@@ -1,0 +1,6 @@
+- name: Install ClickHouse
+  hosts: clickhouse_hosts
+  remote_user: root
+  roles:
+  - clickhouse_install
+  tags: clickhouse

@@ -1,0 +1,45 @@
+kafka:
+  kafkaTopic: "NTC-OSS-ES"
+  kafkaBrokerList: "{{kafkaBrokerList}}"
+  offSet: "latest"
+  groupId: "http_mail_parse_data_lp"
+  autoCommit: false
+es:
+  clusterName: "{{esClusterName}}"
+  nodes: "{{esNode}}"
+  tcpPorts: "9300"
+  bulkLimit: 500
+oss:
+  endPoint: "{{cephEndPoint}}"
+  accessKeyId: "{{cephAccessKeyId}}"
+  accessKeySecret: "{{cephAccessKeySecret}}"
+  httpBucketName: "ntc-oss-large-file-html"
+  emailBucketName: "ntc-oss-large-file-email"
+  otherBucketName: "ntc-oss-large-file"
+  maxConnections: 2048
+  uploadUrl: "http://192.168.5.76:8057/upload_v2"
+hbase:
+  zkNodes: "{{hbaseZkNodes}}"
+  port: "2181"
+  zkParent: "/hbase-unsecure"
+  namespace: "default"
+  tableName: "ntc_oss_small_file"
+  sign: "sign"
+  fileType: "filetype"
+  content: "content"
+spark:
+  appName: "https_parse_job_lp"
+  intervalTime: 5
+monitor:
+  offSwitch: true
+  errorMessageTopic: "K19-TEST-EXCEPTION-MESSAGE"
+  kafkaBrokerList: "{{monKafkaBrokerList}}"
+  exceptionSize: 10000
+  flushSwitch: false
+logLevel: "INFO"
+region: "{{region}}"
+threadPoolSize: 5
+detectEncoding: true
+byteSize: 104857600
+filter: true
+attachmentSwitch: true

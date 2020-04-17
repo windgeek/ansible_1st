@@ -1,0 +1,10 @@
+dir: /tmp
+mon1: hostname1
+mon2: hostname2
+mon3: hostname3
+node: hostname1 hostname2 hostname3
+ssh_port: 22
+# disk_number+1
+number: 2
+# 物理机一般是sd，虚拟机一般是vd
+disk_lable: sd

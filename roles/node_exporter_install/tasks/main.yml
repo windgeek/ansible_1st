@@ -1,0 +1,41 @@
+---
+# tasks file for prometheus_install
+- name: unpack the node_export file
+  unarchive: src={{node_exporter_version}}.tar.gz dest=/opt/ copy=yes
+- name: create soft link
+  file: path=/opt/node_exporter state=link src=/opt/{{node_exporter_version}}
+- name: node_exporter user check
+  shell: cat /etc/passwd
+  register: info
+- name: user delete
+  shell: userdel -rf node_exporter && rm -rf /var/spool/mail/node_exporter
+  when: info.stdout.find('node_exporter') != -1
+- name: kafka group check
+  shell: cat /etc/group
+  register: group_info
+- name: group delete
+  shell: groupdel node_exporter
+  when: group_info.stdout.find('node_exporter') != -1
+- name: create user
+  shell: useradd node_exporter
+- name: chown
+  shell: |
+    chown -R node_exporter:node_exporter /opt/{{node_exporter_version}}
+    chown -R node_exporter:node_exporter /opt/node_exporter
+
+- name: add system service
+  template: src="templates/node_exporter.service" dest="/etc/systemd/system/node_exporter.service" owner=root group=root mode=0644
+
+- name: node_exporter server started
+  service:
+    name: node_exporter
+    enabled: true
+    state: started
+
+- name: Check if node_exporter is accessible
+  uri:
+    url: http://{{hostvars[inventory_hostname].ansible_default_ipv4.address}}:9100
+    method: GET
+    status_code: 200
+
+

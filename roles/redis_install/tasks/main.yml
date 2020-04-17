@@ -1,0 +1,36 @@
+---
+# install gcc
+- name: yum install gcc
+  yum: name=gcc-c++ state=present
+- name: yum install expect
+  yum: name=expect state=present
+  run_once: true
+  delegate_to: "{{redis_master}}"
+# copy redis package
+- name: unpack the redis file
+  unarchive: src={{redis_version}}.tar.gz dest=/opt copy=yes
+# compile
+- name: make && make install
+  shell: |
+    cd /opt/{{redis_version}}
+    make -j8 && make install -j8
+- name: create dir
+  file: path=/opt/{{redis_version}}/redis-cluster/7000 state=directory owner=root group=root mode=0755
+- name: create dir
+  file: path=/opt/{{redis_version}}/redis-cluster/7001 state=directory owner=root group=root mode=0755
+- name: copy & change profile-7000
+  template: src=redis7000.conf.j2 dest=/opt/{{redis_version}}/redis-cluster/7000/redis.conf owner=root group=root mode=0755
+- name: copy & change profile-7001
+  template: src=redis7001.conf.j2 dest=/opt/{{redis_version}}/redis-cluster/7001/redis.conf owner=root group=root mode=0755
+- name: start redis server
+  shell: |
+    /opt/{{redis_version}}/src/redis-server /opt/{{redis_version}}/redis-cluster/7000/redis.conf
+    /opt/{{redis_version}}/src/redis-server /opt/{{redis_version}}/redis-cluster/7001/redis.conf
+- name: create redis cluster
+  template: src=templates/create_cluster.sh dest=/tmp/create_cluster.sh owner=root group=root mode=0777
+  run_once: true
+  delegate_to: "{{redis_master}}"
+- name: run create cluster script
+  shell: sh /tmp/create_cluster.sh  
+  run_once: true
+  delegate_to: "{{redis_master}}"

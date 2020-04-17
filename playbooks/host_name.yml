@@ -1,0 +1,6 @@
+- name: change hostname
+  hosts: host_name
+  remote_user: root
+  roles:
+  - host_name
+  tags: host_name

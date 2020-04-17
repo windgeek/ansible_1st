@@ -1,0 +1,1 @@
+0 0 * * *  /root/tools/clean_dm1.sh > /dev/null 2>&1

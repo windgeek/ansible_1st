@@ -1,0 +1,12 @@
+postgresql_version: postgresql-9.6.3
+postgresql_install_path: /opt/postgresql
+data_path: /data1/postgresql/data
+log_path: /data1/postgresql/log
+postgres_system_user: postgres
+postgres_system_password: postgres
+#两台服务器所处的网段
+network_segment: '172.24.9.0/24'
+timezone: 'Asia/Shanghai'
+replication_user: 'replica'
+replication_password: 'replica'
+postgres_password: 'k18k18'

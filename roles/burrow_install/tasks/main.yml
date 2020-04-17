@@ -1,0 +1,33 @@
+---
+# tasks file for Burrow_install
+- name: unpack the Burrow file
+  unarchive: src=Burrow-master.tar.gz dest=/opt/ copy=yes
+- name: go complie
+  shell: |
+    cd /opt/Burrow-master
+    go mod tidy
+    go install
+- name: config burrow.yml
+  template: src="templates/burrow.yml" dest="/opt/Burrow-master/config/burrow.toml"
+#- name: start Burrow
+#  shell: nohup /opt/go/bin/Burrow --config-dir /opt/Burrow-master/config &
+#- name: Check if Burrow is accessible
+#  wait_for:
+#    port: 8000
+#    state: started
+#    delay: 10
+#    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+#    timeout: 15
+#    connect_timeout: 5
+- name: unpack the Burrow-exporter file
+  unarchive: src=burrow-exporter.tar.gz dest=/opt/Burrow-master copy=yes
+#- name: start burrow-exporter
+#  shell: nohup /opt/Burrow-master/burrow-exporter --burrow-addr="http://{{ burrow_server }}:8000" --metrics-addr="0.0.0.0:9254" --interval="15" --api-version="3" &
+#- name: Check if burrow-exporter is accessible
+#  wait_for:
+#    port: 9254
+#    state: started
+#    delay: 10
+#    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+#    timeout: 15
+#    connect_timeout: 5

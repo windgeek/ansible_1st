@@ -1,0 +1,6 @@
+- name: Install MySQL
+  hosts: mysql_ha_hosts
+  remote_user: root
+  roles:
+  - mysql_ha_install
+  tags: mysql_ha

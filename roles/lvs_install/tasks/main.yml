@@ -1,0 +1,6 @@
+---
+# tasks file for lvs_install
+- name: add script
+  template: src=lvs_RIP.sh dest=/usr/local/sbin/ owner=root group=root mode=0775
+- name: start
+  shell: sh /usr/local/sbin/lvs_RIP.sh start

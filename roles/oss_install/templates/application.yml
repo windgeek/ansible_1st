@@ -1,0 +1,39 @@
+#属性配置文件的位置
+#spring会从classpath下的/config目录或者classpath的根目录查找application.properties或application.yml。/config优先于classpath根目录
+# Tomcat
+server:
+    tomcat:
+        uri-encoding: UTF-8
+        max-threads: 1000
+        min-spare-threads: 30
+    port: 80
+    #context-path: /bfd-fast
+    #ssl:
+        #key-store: classpath:keystore.p12
+        #key-store-password: 123456
+        #keyStoreType: PKCS12
+        #keyAlias: tomcat
+
+# mysql
+spring:
+    # 环境 dev|test|pro
+    profiles:
+        active: {{env_tag}}
+    # jackson时间格式化
+#    jackson:
+#        time-zone: GMT+8
+#        date-format: yyyy-MM-dd HH:mm:ss
+    http:
+        multipart:
+            maxFileSize: 100MB
+            maxRequestSize: 100MB
+            enabled: true
+    # 指定静态资源的路径
+    resources:
+        static-locations: classpath:/static/,classpath:/views/
+    messages:
+        basename: i18n/messages
+        cache-seconds: 3600
+management:
+  security:
+    enabled: false

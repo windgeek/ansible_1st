@@ -1,0 +1,6 @@
+- name: Install oss
+  hosts: oss_hosts
+  remote_user: root
+  roles:
+  - oss_install
+  tags: oss_install

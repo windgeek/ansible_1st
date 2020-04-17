@@ -1,0 +1,10 @@
+# tasks file for raid_config
+- name: create direcory
+  file:
+    path: /tmp/raid_config
+    state: directory
+    mode: 0755
+- name: copy raid shell
+  copy: src="{{raid_sh}}" dest="/tmp/raid_config/"
+- name: run raid shell
+  shell: sh /tmp/raid_config/{{raid_sh}}

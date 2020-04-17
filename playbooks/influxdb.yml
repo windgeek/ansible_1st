@@ -1,0 +1,6 @@
+- name: Install Influxdb
+  hosts: influxdb_hosts
+  remote_user: root
+  roles:
+  - influxdb_install
+  tags: influxdb

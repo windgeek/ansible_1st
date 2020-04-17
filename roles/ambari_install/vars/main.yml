@@ -1,0 +1,5 @@
+mysql_password: k19k19
+ambari_mysql_password: k19k19
+hive_mysql_password: k19k19
+mysql_port: 3306
+java_home: /opt/java

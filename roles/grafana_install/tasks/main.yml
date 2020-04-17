@@ -1,0 +1,38 @@
+---
+# tasks file for kafka_install
+- name: copy grafana grafana file
+  copy: src={{grafana_version}}.rpm dest=/opt/
+- name: grafana user check
+  shell: cat /etc/passwd
+  register: info
+- name: user delete
+  shell: userdel -rf grafana && rm -rf /var/spool/mail/grafana
+  when: info.stdout.find('grafana') != -1
+- name: create user
+  shell: useradd grafana
+- name: install dependence
+  shell: yum -y install urw-fonts fontconfig
+- name: install
+  shell: rpm -ivh /opt/{{grafana_version}}.rpm
+- name: mkdir and chown
+  shell: |
+    mkdir -pv {{data_path}}
+    chown -R grafana:grafana {{data_path}}
+    mkdir -pv {{log_path}}
+    chown -R grafana:grafana {{log_path}}
+- name: config
+  template: src="templates/grafana.ini.j2" dest="/etc/grafana/grafana.ini" owner=root group=root mode=0644
+- name: delete rpm package
+  file: path=/opt/grafana-6.3.5-1.x86_64.rpm state=absent
+- name: Grafana server started
+  service:
+    name: grafana-server
+    enabled: true
+    state: started
+- name: Check if Grafana is accessible
+  uri:
+    url: http://{{hostvars[inventory_hostname].ansible_default_ipv4.address}}:3000
+    method: GET
+    status_code: 200
+
+

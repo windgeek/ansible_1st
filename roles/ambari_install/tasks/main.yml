@@ -1,0 +1,29 @@
+# tasks file for ambari_install
+- name: install ambari-server
+  yum: name={{item.name}} state={{item.state|default("installed")}}
+  with_items:
+    - name: "ambari-server"
+    - name: "expect"
+    - name: "mysql-connector-java"
+- name: send script
+  template: src="templates/{{item.key}}" dest="{{item.value}}"
+  with_dict:
+    - {"config_ambari.sh":"/tmp/config_ambari.sh"}
+    - {"init.sql":"/tmp/init.sql"}
+    - {"init2.sql":"/tmp/init2.sql"}
+- name: config_mysql create database
+  shell: mysql -uroot -p{{mysql_password}} < /tmp/init.sql
+- name: delete the old jar
+  file: path=/usr/share/java/mysql-connector-java.jar state=absent
+- name: scp the new jar
+  copy: src=mysql-connector-java-5.1.42.jar dest=/usr/share/java/
+- name: create soft link
+  file: path=/usr/share/java/mysql-connector-java.jar state=link src=/usr/share/java/mysql-connector-java-5.1.42.jar
+- name: config ambari-server
+  shell: sh /tmp/config_ambari.sh
+  register: result
+- name: show debug info
+  debug: var=result verbosity=0
+- name: config_mysql source sql
+  shell: mysql -uroot -p{{mysql_password}} < /tmp/init2.sql
+- include: start.yml

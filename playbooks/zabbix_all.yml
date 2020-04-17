@@ -1,0 +1,10 @@
+- name: Install zabbix-server
+  hosts: zabbix_server
+  remote_user: root
+  roles:
+    - mysql_install
+    - zabbix-server_install
+  tags: zabbix-server
+- import_playbook: zabbix-proxy.yml
+- import_playbook: zabbix-agent.yml
+

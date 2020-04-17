@@ -1,0 +1,7 @@
+logdirs: /data1/kafka-logs
+#多个目录的话写成 /{data1,data2}/kafka-logs 这种形式
+mkdirs: /data1/kafka-logs
+#zookeeper: 172.24.9.45:2181,172.24.9.46:2181,172.24.9.47:2181/kafka
+#zookeeper: 172.24.9.51:2181,172.24.9.52:2181,172.24.9.54:2181/kafka
+zookeeper: 172.24.9.55:2181,172.24.9.56:2181,172.24.9.57:2181/kafka
+kafka_version: kafka_2.11-1.1.1

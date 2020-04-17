@@ -1,0 +1,7 @@
+data_dirss: /opt/mysqldb
+data_dirs: /opt/mysqldb/3306
+data_dir: /opt/mysqldb/3306/data
+log_path: /opt/mysqldb/3306/log
+#log_error_file: /opt/mysqldb/3306/log/mysql-error.log
+pid_file: /opt/mysqldb/3306/run/mysqld.pid
+log_bin: /opt/mysqldb/3306/log/binlog/mysql-bin

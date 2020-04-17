@@ -1,0 +1,25 @@
+---
+- name: install golang
+  yum: name=golang  state=present
+- name: install librados*
+  yum: name=librados*  state=present
+- name: install librbd1-devel
+  yum: name=librbd1-devel  state=present
+- name: install config file
+  copy: src=go.sh dest=/etc/profile.d/
+- name: source node profile
+  shell: source /etc/profile.d/go.sh
+- name: unpack the ceph_exporter file
+  unarchive: src=ceph_exporter.tar.gz dest=/opt/ copy=yes
+- name: start ceph_exporter
+  shell: pm2 start /opt/ceph_exporter/bin/ceph_exporter
+- name: Check if ceph_exporter is accessible
+  wait_for:
+    port: 9128
+    state: started
+    delay: 10
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 15
+    connect_timeout: 5
+
+

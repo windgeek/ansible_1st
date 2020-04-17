@@ -1,0 +1,6 @@
+- name: Install cerebro
+  hosts: cerebro_hosts
+  remote_user: root
+  roles:
+  - cerebro_install
+  tags: cerebro

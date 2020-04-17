@@ -1,0 +1,56 @@
+一：Ceph 90天
+
+编辑一个xml文件
+例：
+1.vim ntc-oss-large-file-eml.xml
+
+<?xml version="1.0" ?>
+<LifecycleConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+        <Rule>
+                <ID>ntc-oss-large-file-eml</ID>
+                <Prefix/>
+                <Status>Enabled</Status>
+                <Expiration>
+                        <Days>90</Days>
+                </Expiration>
+        </Rule>
+</LifecycleConfiguration>
+2.使用s3cmd setlifecycle FILE s3://BUCKET 命令设置
+s3cmd setlifecycle ntc-oss-large-file-eml.xml s3://ntc-oss-large-file-eml
+3.查看是否设置生效
+s3cmd getlifecycle s3://ntc-oss-large-file-eml
+
+4.ceph.conf中添加配置，已加入安装脚本
+[rgw]
+rgw_lifecycle_work_time = "00:00-24:00"
+rgw_lc_debug_interval = 10
+
+二：HBase 90天
+HBase 创建时指定 
+例如：
+create 'k18_media:ntc_oss_small_file',{NAME =>'sf',VERSIONS =>1,TTL => 7776000,BLOOMFILTER => 'ROWCOL'}, {NUMREGIONS => 5950,SPLITALGO => 'HexStringSplit'}
+
+disable "k18_media:ntc_oss_small_file"  
+ 
+alter "k18_media:ntc_oss_small_file",NAME=>'sf',TTL=>'518400'
+
+
+三：kafka 5天
+清理策略
+log.cleanup.policy=delete #启用删除策略
+
+清理超过指定时间清理： 
+原始
+log.retention.hours=120 
+
+四：Zabbix
+zabbix的数据清理可以设置监控项中的历史数据保留时长和趋势存储时间，可以保留较长的趋势数据，保存短期的历史数据
+
+历史数据保留时长：History storage period (in days) 7
+
+趋势存储时间：Trend storage period (in days) 365
+
+五：脚本类：CK、DM、MySQL、ES
+ClickHouse 90天、DM 2天、MySQL（数据流监控）15天、ES 90天
+脚本+定时任务
+

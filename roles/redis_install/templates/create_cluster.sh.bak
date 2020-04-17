@@ -1,0 +1,9 @@
+#!/bin/bash
+expect << EOF
+set timeout 300
+spawn /opt/{{redis_version}}/src/redis-cli --cluster create  {{redis1}}:7000 {{redis2}}:7001 {{redis2}}:7000 {{redis3}}:7001 {{redis3}}:7000 {{redis1}}:7001 --cluster-replicas 1
+expect {
+    "Can I set the above configuration?" (type 'yes' to accept):" {send "yes\n"; exp_continue}
+    eof {exit}
+}
+EOF

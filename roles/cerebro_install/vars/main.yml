@@ -1,0 +1,8 @@
+#cerebro version
+cerebro_version: cerebro-0.7.2
+#each cluster's one node [name]:[http://ip:port] name can be customized，the name will displayed to the front end
+host_name:
+  query: 'http://172.24.9.46:9200'
+  tse: 'http://172.24.9.48:9200'
+  ala: 'http://172.24.9.52:9200'
+

@@ -1,0 +1,18 @@
+kafka2es_version: https-kafka2es-2.3
+jar_version: https-kafka2es-2.3-jar-with-dependencies.jar
+dataflow_dir: /data1/content2es
+kafkaBrokerList: 192.168.5.75:6667,192.168.5.76:6667
+monKafkaBrokerList: 192.168.5.75:6667
+esClusterName: index_data
+esNode: 192.168.5.75,192.168.5.76
+cephEndPoint: 192.168.5.75:8899
+cephAccessKeyId: 9F8YOOSILYZ4ZBFXTHXE
+cephAccessKeySecret: skMSk9RF6gn0rMiocsQPxEDLG9kPhnx0mMyI8O6i
+ossUploadUrl: http://192.168.5.76:8057/upload_v2
+hbaseZkNodes: k19-bigdata-1,k19-bigdata-2
+region: TSE
+#若没做ha，就填入 hdfsActiveNamenode 例如：tsecluster或k182nd-stg-02:8020
+hdfsHAClusterName: k19-bigdata-1:8020
+logLevel: warn
+json_hbaseZk: bjlg-3p207-lisong,bjlg-3p208-lisong,bjlg-3p207-lisong
+json_ossDownloadUrl: http://172.16.3.209:8057/download_v2/

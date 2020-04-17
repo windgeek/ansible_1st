@@ -1,0 +1,2 @@
+kafka_manager_version: kafka-manager-2.0.0.2
+zk_addr: 172.24.9.45:2181,172.24.9.46:2181,172.24.9.47:2181

@@ -1,0 +1,6 @@
+- name: Install proxy-agent
+  hosts: proxy_agent
+  remote_user: root
+  roles:
+  - proxy-agent_install
+  tags: proxy-agent

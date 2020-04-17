@@ -1,0 +1,101 @@
+FS:
+  # ceph对象网关配置及默认桶名
+  OSS:
+    # ceph对象网关ip/port
+    endpoint: {{ceph_endpoint}}
+    # 多rgw实例配置，最高优先级
+    endpoints: {{ceph_endpoints}}
+    # s3用户信息
+    accessKey: {{ceph_accessKey}}
+    # s3用户信息
+    accessKeySecret: {{ceph_accessKeySecret}}
+    # 存储桶
+    budgetName: {{ceph_bucketName}}
+    # s3池的默认连接数
+    maxConnections: {{ceph_maxConnections}}
+  # habse基础信息及相关表及字段名称
+  hbase:
+    # hbase zookeeper quorum
+    zkQuorum: {{hbase_zkQuorum}}
+    # zookeeper parent path
+    zkParent: {{hbase_zkParent}}
+    # client port
+    clientPort: {{hbase_zk_port}}
+    # hbase命名空间
+    namespace: {{hbase_namespace}}
+    # hbase认证用户(不配置或者配置default为使用默认)
+    hbaseUser: {{hbase_User}}
+    # 数据库创建连接时线程数
+    threadNum: {{hbase_threadNum}}
+    # hbase 表名,默认ntc_oss_small_file
+    tableName: {{hbase_tableName}}
+    # hbase 对应列簇,默认sf
+    columnFamily: {{hbase_columnFamily}}
+    # hbase 对应字段名字（用途: 1:ceph；2:hbase）,默认sign
+    columnSign: {{hbase_columnSign}}
+    # hbase 对应字段名字（用途:1：阻断；2：监测）,默认ntc
+    columnNtc: {{hbase_columnNtc}}
+    # hbase 对应字段名字（用途:1：邮件；2：网页）,默认filetype
+    columnFileType: {{hbase_columnFileType}}
+    # hbase 对应字段名字(用途:存储二进制文件byte[]),默认content
+    columnContent: {{hbase_columnContent}}
+  common:
+    # 文件阈值单位KB,超过这个大写将存储到ceph，仅支持默认1024
+    hbaseMaxFileSize: {{hbase_MaxFileSize}}
+    #老的oss给ES数据流传递数据的Topic
+    kafkaTopic: {{kafka_Topic}}
+    #新的oss给ES数据流传递数据的Topic
+    ossForESTopic: {{kafka_ossForESTopic}}
+    # oss 监控日志kafka开关，默认false
+    ossLogOpen: {{oss_LogOpen}}
+    # oss 监控日志kafka采集数据需要：用于标识本机是音视频机器
+    machineType: {{machineType}}
+    # oss 监控日志kafka topic
+    ossLogKafkaTopic: {{kafka_ossLogKafkaTopic}}
+  # com.bfd.config.ExecutorConfig
+  # 用于配置CEPH大文件异步上传异步线程
+  uploadExecutor:
+    # ceph默认的线程池
+    cephBaseFile:
+      #是否开启
+      open: true
+      # 默认线程池数量
+      corePoolSize: 10
+      # 最大线程池数量
+      maxPoolSize: 100
+      # 超过最大线程池时队列数量
+      queueCapacity: 200
+    # ceph大文件线程池
+    cephLargeFile:
+      #是否开启
+      open: true
+      # 默认线程池数量
+      corePoolSize: 10
+      # 最大线程池数量
+      maxPoolSize: 100
+      # 超过最大线程池时队列数量
+      queueCapacity: 200
+      # 进入线程池的最小文件大小,单位KB，默认10M
+      minFileSize: 10240
+    # oss监控线程池
+    ossLogger:
+      # 默认线程池数量
+      corePoolSize: 1000
+      # 最大线程池数量
+      maxPoolSize: 5000
+      # 超过最大线程池时队列数量
+      queueCapacity: 2000
+
+spring:
+  # kafka 配置
+  kafka:
+    # 指定kafka 代理地址，可以多个
+#    bootstrap-servers: 192.168.162.103:36667,192.168.162.104:36667,192.168.162.105:36667
+    bootstrap-servers: {{kafka_bootstrap_server}}
+    producer:
+      # 每次批量发送消息的数量
+      batch-size: {{kafka_batch_size}}
+    properties:
+      max:
+        request:
+          size: {{kafka_maxRequestSize}}

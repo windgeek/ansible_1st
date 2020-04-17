@@ -1,0 +1,50 @@
+# tasks file for es_install
+- name: unpack the elasticsearch file
+  unarchive: src={{es_version}}.tar.gz dest=/opt copy=yes
+- name: user check
+  shell: cat /etc/passwd
+  register: info
+- name: user delete
+  shell: userdel -rf elastic && rm -rf /var/spool/mail/elastic
+  when: info.stdout.find('elastic') != -1
+- name: elastic group check
+  shell: cat /etc/group
+  register: group_info
+- name: group delete
+  shell: groupdel elastic
+  when: group_info.stdout.find('elastic') != -1
+- name: create user
+  shell: useradd elastic
+- name: create soft link
+  file: path=/opt/elasticsearch state=link src=/opt/{{es_version}}
+- name: chown
+  shell:  |
+    chown -R elastic:elastic /opt/{{es_version}}
+    chown -R elastic:elastic /opt/elasticsearch
+- name: config elasticsearch
+  template: src="templates/elasticsearch.yml.j2" dest="/opt/elasticsearch/config/elasticsearch.yml" owner=elastic group=elastic mode=0644
+- name: config elasticsearch
+  template: src="templates/jvm.options" dest="/opt/elasticsearch/config/jvm.options" owner=elastic group=elastic mode=0644
+- name: config elasticsearch
+  template: src="templates/log4j2.properties" dest="/opt/elasticsearch/config/log4j2.properties" owner=elastic group=elastic mode=0644
+- name: mkdir && chown
+  shell: |
+    mkdir -pv {{path_datac}}/data
+    chown elastic:elastic -R {{path_datac}}
+- name: copy env script to client
+  copy: src="env.sh" dest=/tmp
+- name: run env
+  shell: bash /tmp/env.sh
+- name: kill me
+  file: path=/tmp/env.sh state=absent
+- name: start es
+  shell: su - elastic -c "sh /opt/elasticsearch/bin/elasticsearch --daemonize --silent"
+- name: Check if Elasticsearch is accessible
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 9200
+    state: started
+    delay: 15
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 20
+    connect_timeout: 5

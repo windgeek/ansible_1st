@@ -1,0 +1,6 @@
+- name: Install zabbix-agent
+  hosts: zabbix_agent1
+  remote_user: root
+  roles:
+  - zabbix-agent_install
+  tags: zabbix-agent

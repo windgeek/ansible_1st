@@ -1,0 +1,50 @@
+---
+# tasks file for prometheus_install
+- name: unpack the prometheus file
+  unarchive: src={{prometheus_version}}.tar.gz dest=/opt/ copy=yes
+- name: create soft link
+  file: path=/opt/prometheus state=link src=/opt/{{prometheus_version}}
+
+
+- name: prometheus user check
+  shell: cat /etc/passwd
+  register: info
+- name: user delete
+  shell: userdel -rf prometheus && rm -rf /var/spool/mail/prometheus
+  when: info.stdout.find('prometheus') != -1
+
+- name: prometheus group check
+  shell: cat /etc/group
+  register: group_info
+- name: group delete
+  shell: groupdel prometheus
+  when: group_info.stdout.find('prometheus') != -1
+
+- name: create user
+  shell: useradd prometheus
+- name: mkdir and chown
+  shell: |
+    mkdir -pv {{tsdb_path}}/data
+    chown -R prometheus:prometheus {{tsdb_path}}
+    chown -R prometheus:prometheus /opt/{{prometheus_version}}
+    chown -R prometheus:prometheus /opt/prometheus
+
+- name: config
+  template: src="templates/prometheus.yml.j2" dest="/opt/prometheus/prometheus.yml" owner=prometheus group=prometheus mode=0644
+
+- name: add system service
+  template: src="templates/prometheus.service" dest="/etc/systemd/system/prometheus.service" owner=root group=root mode=0644
+
+- name: prometheus server started
+  service:
+    name: prometheus
+    enabled: true
+    state: started
+
+- name: Check if prometheus is accessible
+  uri:
+    url: http://{{hostvars[inventory_hostname].ansible_default_ipv4.address}}:9090
+    method: GET
+    status_code: 200
+
+

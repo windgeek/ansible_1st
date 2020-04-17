@@ -1,0 +1,3 @@
+data_path: /data1/grafana/data
+log_path: /data1/grafana/log
+grafana_version: grafana-6.3.5-1.x86_64

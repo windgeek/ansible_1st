@@ -1,0 +1,17 @@
+- name: raid0 config
+  hosts: raid0
+  remote_user: root
+  roles:
+  - raid_config
+
+- name: raid5 config
+  hosts: raid5
+  remote_user: root
+  roles:
+  - raid_config
+
+- name: raid10 config
+  hosts: raid5
+  remote_user: root
+  roles:
+  - raid_config

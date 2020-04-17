@@ -1,0 +1,6 @@
+- name: Install pm2
+  hosts: pm2_hosts
+  remote_user: root
+  roles:
+  - pm2_install
+  tags: pm2_install

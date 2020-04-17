@@ -1,0 +1,697 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1a4637bb-7e4e-4c7f-af87-e1ecda6208e7" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1TrccdYtKY5kYC8Cji2ZKcs5v9h" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="false" id="Update" />
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/roles/grafana_install/json" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/roles/grafana_install/json" />
+      <recent name="$PROJECT_DIR$/playbooks" />
+      <recent name="$PROJECT_DIR$/roles" />
+      <recent name="$PROJECT_DIR$/roles/grafana_install/resource" />
+      <recent name="$PROJECT_DIR$/roles/ceph_install/templates" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/roles/grafana_install/json" />
+      <recent name="$PROJECT_DIR$/roles/ambari_install/tasks" />
+      <recent name="$PROJECT_DIR$/roles/clickhouse_export_install/files" />
+      <recent name="$PROJECT_DIR$/roles/node_export_install/files" />
+      <recent name="$PROJECT_DIR$/roles/prometheus_install/templates" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.get_es_index">
+    <configuration name="get_es_index" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ansible" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/roles/grafana_install/resource" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/roles/grafana_install/resource/get_es_index.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="get_yarn_running" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ansible" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/roles/grafana_install/resource" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/roles/grafana_install/resource/get_yarn_running.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.get_es_index" />
+        <item itemvalue="Python.get_yarn_running" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1a4637bb-7e4e-4c7f-af87-e1ecda6208e7" name="Default Changelist" comment="" />
+      <created>1566469220099</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1566469220099</updated>
+      <workItem from="1566469221537" duration="1521000" />
+      <workItem from="1566541059504" duration="212000" />
+      <workItem from="1566541485351" duration="1579000" />
+      <workItem from="1566808768945" duration="19754000" />
+      <workItem from="1566989052799" duration="16725000" />
+      <workItem from="1567417191734" duration="4327000" />
+      <workItem from="1567491175924" duration="613000" />
+      <workItem from="1567503827417" duration="2000" />
+      <workItem from="1567563042253" duration="12000" />
+      <workItem from="1567565665392" duration="7209000" />
+      <workItem from="1567757795363" duration="1070000" />
+      <workItem from="1568197733090" duration="1555000" />
+      <workItem from="1568269908014" duration="1453000" />
+      <workItem from="1568284525947" duration="1252000" />
+      <workItem from="1568296229759" duration="1012000" />
+      <workItem from="1568599342941" duration="6138000" />
+      <workItem from="1568948460601" duration="4258000" />
+      <workItem from="1569203885184" duration="3318000" />
+      <workItem from="1569395641604" duration="8568000" />
+      <workItem from="1569746217882" duration="1212000" />
+      <workItem from="1570879913745" duration="397000" />
+      <workItem from="1570880319277" duration="1470000" />
+      <workItem from="1571017699885" duration="6502000" />
+      <workItem from="1571628604564" duration="15745000" />
+      <workItem from="1571889374848" duration="2675000" />
+      <workItem from="1571912213580" duration="210000" />
+      <workItem from="1571967529945" duration="48061000" />
+      <workItem from="1572866074440" duration="469000" />
+      <workItem from="1572878421653" duration="34067000" />
+      <workItem from="1573796987786" duration="4460000" />
+      <workItem from="1574221741372" duration="42357000" />
+      <workItem from="1574924765440" duration="5642000" />
+      <workItem from="1575369700844" duration="5199000" />
+      <workItem from="1575601166198" duration="1466000" />
+      <workItem from="1575614725917" duration="1213000" />
+      <workItem from="1575856442277" duration="11612000" />
+      <workItem from="1576138711007" duration="2160000" />
+      <workItem from="1576205551894" duration="4523000" />
+      <workItem from="1576460146850" duration="2626000" />
+      <workItem from="1576482053309" duration="9196000" />
+      <workItem from="1577086872078" duration="3256000" />
+      <workItem from="1577162679905" duration="4029000" />
+      <workItem from="1577686258797" duration="647000" />
+      <workItem from="1577760219364" duration="23621000" />
+      <workItem from="1578620202398" duration="15477000" />
+      <workItem from="1579137837886" duration="10000" />
+      <workItem from="1579138275693" duration="1679000" />
+      <workItem from="1579165959912" duration="47000" />
+      <workItem from="1579166672839" duration="307000" />
+      <workItem from="1579225255925" duration="4430000" />
+      <workItem from="1579252322560" duration="5746000" />
+      <workItem from="1580208781638" duration="497000" />
+      <workItem from="1580219798270" duration="367000" />
+      <workItem from="1580296148611" duration="3000" />
+      <workItem from="1580547541721" duration="1748000" />
+      <workItem from="1580554952209" duration="2373000" />
+      <workItem from="1580696539076" duration="4375000" />
+      <workItem from="1580731561720" duration="266000" />
+      <workItem from="1580732579090" duration="18739000" />
+      <workItem from="1581241067725" duration="254000" />
+      <workItem from="1581245906493" duration="89000" />
+      <workItem from="1581247492044" duration="3000" />
+      <workItem from="1581302679864" duration="16799000" />
+      <workItem from="1581389106807" duration="4981000" />
+      <workItem from="1581471733067" duration="2364000" />
+      <workItem from="1581501599345" duration="308000" />
+      <workItem from="1581559398457" duration="1972000" />
+      <workItem from="1581590079917" duration="1130000" />
+      <workItem from="1581666583460" duration="252000" />
+      <workItem from="1581760026717" duration="15992000" />
+      <workItem from="1582173217976" duration="1255000" />
+      <workItem from="1582440083319" duration="132000" />
+      <workItem from="1582711264547" duration="899000" />
+      <workItem from="1582770813259" duration="1389000" />
+      <workItem from="1582803074277" duration="1540000" />
+      <workItem from="1582984078885" duration="8000" />
+      <workItem from="1583128515702" duration="495000" />
+      <workItem from="1583129659635" duration="536000" />
+      <workItem from="1583130927932" duration="1153000" />
+      <workItem from="1583750580802" duration="447000" />
+      <workItem from="1583909850947" duration="3728000" />
+      <workItem from="1584325076179" duration="3813000" />
+      <workItem from="1584704288343" duration="90000" />
+      <workItem from="1585037711252" duration="683000" />
+      <workItem from="1585107700382" duration="1981000" />
+      <workItem from="1585190479188" duration="790000" />
+      <workItem from="1585297289739" duration="1168000" />
+      <workItem from="1585302563126" duration="1664000" />
+      <workItem from="1585544151440" duration="52000" />
+      <workItem from="1585565149566" duration="672000" />
+      <workItem from="1585641594259" duration="2896000" />
+      <workItem from="1586233518030" duration="7000" />
+      <workItem from="1586233540986" duration="2302000" />
+      <workItem from="1586309697819" duration="441000" />
+      <workItem from="1586310886737" duration="33000" />
+      <workItem from="1586500459598" duration="946000" />
+      <workItem from="1586835380150" duration="565000" />
+      <workItem from="1586860383816" duration="3000" />
+      <workItem from="1586861357802" duration="194000" />
+      <workItem from="1586947684656" duration="642000" />
+    </task>
+    <task id="LOCAL-00051" summary="add httpcontent&#10;dataflow_kafka2ck update">
+      <created>1572839008682</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1572839008682</updated>
+    </task>
+    <task id="LOCAL-00052" summary="add content2es&#10;httpcontent update var and template&#10;kafka2ck update var and template&#10;zabbix update task and add var&#10;update sys_opt">
+      <created>1573031017599</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1573031017599</updated>
+    </task>
+    <task id="LOCAL-00053" summary="update content2es">
+      <created>1573031131419</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1573031131420</updated>
+    </task>
+    <task id="LOCAL-00054" summary="httpcontent and content2es update">
+      <created>1573115196437</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1573115196438</updated>
+    </task>
+    <task id="LOCAL-00055" summary="add content2kafka">
+      <created>1573115275013</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1573115275013</updated>
+    </task>
+    <task id="LOCAL-00056" summary="add message2kafka">
+      <created>1573178041262</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1573178041263</updated>
+    </task>
+    <task id="LOCAL-00057" summary="update raid config&#10;add ceph_new">
+      <created>1573554227030</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1573554227030</updated>
+    </task>
+    <task id="LOCAL-00058" summary="add grafana json and tools">
+      <created>1573797291029</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1573797291030</updated>
+    </task>
+    <task id="LOCAL-00059" summary="add kafka2es">
+      <created>1573803541588</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1573803541589</updated>
+    </task>
+    <task id="LOCAL-00060" summary="update kafka2ck voip_log">
+      <created>1574662435068</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1574662435070</updated>
+    </task>
+    <task id="LOCAL-00061" summary="update kafka2ck datadir">
+      <created>1574663049630</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1574663049631</updated>
+    </task>
+    <task id="LOCAL-00062" summary="update kafka2cktest datadir sh&#10;update dataflow_init ck sql">
+      <created>1574763992186</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1574763992186</updated>
+    </task>
+    <task id="LOCAL-00063" summary="update dataflow_message2kafka task/main.yml">
+      <created>1574930465641</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1574930465642</updated>
+    </task>
+    <task id="LOCAL-00064" summary="update dataflow_message2kafka task/main.yml start.sh">
+      <created>1574936326866</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1574936326866</updated>
+    </task>
+    <task id="LOCAL-00065" summary="update dataflow_httpcpntent start*.sh">
+      <created>1574939408501</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1574939408501</updated>
+    </task>
+    <task id="LOCAL-00066" summary="update ck_replica var #">
+      <created>1576142303469</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1576142303469</updated>
+    </task>
+    <task id="LOCAL-00067" summary="update hosts elasticsearch.yml  ingest=&quot;true&quot;">
+      <created>1576226838175</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1576226838176</updated>
+    </task>
+    <task id="LOCAL-00068" summary="update hosts elasticsearch.yml  ingest=&quot;true&quot;">
+      <created>1576460172679</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1576460172679</updated>
+    </task>
+    <task id="LOCAL-00069" summary="update 文档">
+      <created>1576568853537</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1576568853537</updated>
+    </task>
+    <task id="LOCAL-00070" summary="update 文档">
+      <created>1578209997970</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1578209997972</updated>
+    </task>
+    <task id="LOCAL-00071" summary="update sshd">
+      <created>1578989098132</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1578989098133</updated>
+    </task>
+    <task id="LOCAL-00072" summary="update 文档">
+      <created>1579058619155</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1579058619155</updated>
+    </task>
+    <task id="LOCAL-00073" summary="update distribute">
+      <created>1579060076673</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1579060076673</updated>
+    </task>
+    <task id="LOCAL-00074" summary="update astana">
+      <created>1579070132881</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1579070132881</updated>
+    </task>
+    <task id="LOCAL-00075" summary="update es*&#10;update hosts&#10;update sql">
+      <created>1579079144556</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1579079144556</updated>
+    </task>
+    <task id="LOCAL-00076" summary="update 文档">
+      <created>1579140953118</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1579140953118</updated>
+    </task>
+    <task id="LOCAL-00077" summary="update">
+      <created>1579230791160</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1579230791161</updated>
+    </task>
+    <task id="LOCAL-00078" summary="update kafka2ck">
+      <created>1579252448381</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1579252448381</updated>
+    </task>
+    <task id="LOCAL-00079" summary="update keepalived_proxy">
+      <created>1580117462134</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1580117462136</updated>
+    </task>
+    <task id="LOCAL-00080" summary="update kafka2ck">
+      <created>1580823703189</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1580823703189</updated>
+    </task>
+    <task id="LOCAL-00081" summary="update es_install">
+      <created>1580898208797</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1580898208798</updated>
+    </task>
+    <task id="LOCAL-00082" summary="update raid_config.yml and hosts">
+      <created>1580959215125</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1580959215125</updated>
+    </task>
+    <task id="LOCAL-00083" summary="add es_all.yml&#10;update es_co.yml es_query.yml hosts">
+      <created>1580959700118</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1580959700118</updated>
+    </task>
+    <task id="LOCAL-00084" summary="update auto_mount.yml hosts">
+      <created>1580960072254</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1580960072254</updated>
+    </task>
+    <task id="LOCAL-00085" summary="add init.yml">
+      <created>1580961003591</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1580961003592</updated>
+    </task>
+    <task id="LOCAL-00086" summary="add zabbix_all.yml">
+      <created>1580961238023</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1580961238023</updated>
+    </task>
+    <task id="LOCAL-00087" summary="update hosts">
+      <created>1580962356004</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1580962356004</updated>
+    </task>
+    <task id="LOCAL-00088" summary="style: rename the script&#10;&#10;rename the script to add the same name of ansible in the future">
+      <created>1581220724254</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1581220724256</updated>
+    </task>
+    <task id="LOCAL-00089" summary="feat:add mysql57、ha；opt:update hosts&#10;&#10;add role:mysql57_install mysql_set_slave&#10;add playbook:mysql_57&#10;update hosts">
+      <created>1581222358777</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1581222358778</updated>
+    </task>
+    <task id="LOCAL-00090" summary="feat: add ambari_install&#10;&#10;switch script to ansible: ambari_install">
+      <created>1581321826264</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1581321826264</updated>
+    </task>
+    <task id="LOCAL-00091" summary="fix: add playbook &amp;&amp; update &#10;&#10;add ambari.yml and update the hosts">
+      <created>1581322534196</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1581322534196</updated>
+    </task>
+    <task id="LOCAL-00092" summary="fix: modify the mysql to add source&#10;&#10;add source to avoid reconnecting the server">
+      <created>1581323956373</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1581323956373</updated>
+    </task>
+    <task id="LOCAL-00093" summary="fix: modify the bug of ambari_install&#10;&#10;solve the syntax problem of ambari_install">
+      <created>1581324865749</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1581324865749</updated>
+    </task>
+    <task id="LOCAL-00094" summary="feat: add ceph_install of ansible&#10;&#10;add role, playbook, hosts about ceph_install">
+      <created>1581332929435</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1581332929435</updated>
+    </task>
+    <task id="LOCAL-00095" summary="fix: add osd.sh and modify ceph_install.sh&#10;&#10;modify loop type of ceph_install.sh">
+      <created>1581392347861</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1581392347862</updated>
+    </task>
+    <task id="LOCAL-00096" summary="fix: modify the task of ceph_install&#10;&#10;modify the task of ceph_install">
+      <created>1581392495449</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1581392495450</updated>
+    </task>
+    <task id="LOCAL-00097" summary="feat: Add some content &#10;&#10;add some content of K19自动化部署文档">
+      <created>1581760702796</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1581760702797</updated>
+    </task>
+    <task id="LOCAL-00098" summary="feat: Add get_yarn_running.py&#10;&#10;Add get_yarn_running.py">
+      <created>1581826371810</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1581826371810</updated>
+    </task>
+    <task id="LOCAL-00099" summary="feat and fix: update and add &#10;&#10;update get_yarn_running.py and get_es_index.py">
+      <created>1581865479788</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1581865479790</updated>
+    </task>
+    <option name="localTasksCounter" value="100" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
+    <MESSAGE value="update astana" />
+    <MESSAGE value="update es*&#10;update hosts&#10;update sql" />
+    <MESSAGE value="update 文档" />
+    <MESSAGE value="update" />
+    <MESSAGE value="update keepalived_proxy" />
+    <MESSAGE value="update kafka2ck" />
+    <MESSAGE value="update es_install" />
+    <MESSAGE value="update raid_config.yml and hosts" />
+    <MESSAGE value="add es_all.yml&#10;update es_co.yml es_query.yml hosts" />
+    <MESSAGE value="update auto_mount.yml hosts" />
+    <MESSAGE value="add init.yml" />
+    <MESSAGE value="add zabbix_all.yml" />
+    <MESSAGE value="update hosts" />
+    <MESSAGE value="style: rename the script&#10;&#10;rename the script to add the same name of ansible in the future" />
+    <MESSAGE value="feat:add mysql57、ha；opt:update hosts&#10;&#10;add role:mysql57_install mysql_set_slave&#10;add playbook:mysql_57&#10;update hosts" />
+    <MESSAGE value="feat: add ambari_install&#10;&#10;switch script to ansible: ambari_install" />
+    <MESSAGE value="fix: add playbook &amp;&amp; update &#10;&#10;add ambari.yml and update the hosts" />
+    <MESSAGE value="fix: modify the mysql to add source&#10;&#10;add source to avoid reconnecting the server" />
+    <MESSAGE value="fix: modify the bug of ambari_install&#10;&#10;solve the syntax problem of ambari_install" />
+    <MESSAGE value="feat: add ceph_install of ansible&#10;&#10;add role, playbook, hosts about ceph_install" />
+    <MESSAGE value="fix: add osd.sh and modify ceph_install.sh&#10;&#10;modify loop type of ceph_install.sh" />
+    <MESSAGE value="fix: modify the task of ceph_install&#10;&#10;modify the task of ceph_install" />
+    <MESSAGE value="feat: Add some content &#10;&#10;add some content of K19自动化部署文档" />
+    <MESSAGE value="feat: Add get_yarn_running.py&#10;&#10;Add get_yarn_running.py" />
+    <MESSAGE value="feat and fix: update and add &#10;&#10;update get_yarn_running.py and get_es_index.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat and fix: update and add &#10;&#10;update get_yarn_running.py and get_es_index.py" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="382" y="260" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1585565623265">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="382" y="260" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1440.900@0.0.1440.900" timestamp="1585565623265" />
+    <state x="460" y="23" width="1111" height="984" key="CommitChangelistDialog2" timestamp="1581865479619">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="303" y="51" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1581220721983" />
+    <state x="460" y="23" width="1111" height="984" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1581865479619" />
+    <state x="345" y="23" width="833" height="822" key="CommitChangelistDialog2/0.23.1440.822@0.23.1440.822" timestamp="1581392495254" />
+    <state width="1878" height="304" key="GridCell.Tab.0.bottom" timestamp="1582118498170">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="304" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1582118498170" />
+    <state width="1878" height="304" key="GridCell.Tab.0.center" timestamp="1582118498169">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="304" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1582118498169" />
+    <state width="1878" height="304" key="GridCell.Tab.0.left" timestamp="1582118498164">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="304" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1582118498164" />
+    <state width="1878" height="304" key="GridCell.Tab.0.right" timestamp="1582118498169">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="304" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1582118498169" />
+    <state x="575" y="213" key="MultipleFileMergeDialog" timestamp="1582772563317">
+      <screen x="0" y="23" width="1920" height="984" />
+    </state>
+    <state x="431" y="173" key="MultipleFileMergeDialog/0.0.1440.900@0.0.1440.900" timestamp="1580894393898" />
+    <state x="575" y="208" key="MultipleFileMergeDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1582203567831" />
+    <state x="431" y="181" key="MultipleFileMergeDialog/0.23.1440.822@0.23.1440.822" timestamp="1581404129019" />
+    <state x="431" y="182" key="MultipleFileMergeDialog/0.23.1440.826@0.23.1440.826" timestamp="1580823262561" />
+    <state x="431" y="182" key="MultipleFileMergeDialog/0.23.1440.827@0.23.1440.827" timestamp="1580715135536" />
+    <state x="575" y="213" key="MultipleFileMergeDialog/0.23.1920.984@0.23.1920.984" timestamp="1582772563317" />
+    <state x="221" y="89" key="SettingsEditor" timestamp="1583129762408">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="221" y="89" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1583129762408" />
+    <state x="427" y="229" key="Vcs.Push.Dialog.v2" timestamp="1581865482063">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1581220727679" />
+    <state x="427" y="229" key="Vcs.Push.Dialog.v2/0.0.1920.1080@0.0.1920.1080" timestamp="1581865482063" />
+    <state x="320" y="197" key="Vcs.Push.Dialog.v2/0.23.1440.822@0.23.1440.822" timestamp="1581392497032" />
+    <state x="469" y="212" width="720" height="411" key="org.intellij.images.editor.actions.BackgroundImageDialog" timestamp="1580652079976">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="469" y="212" width="720" height="411" key="org.intellij.images.editor.actions.BackgroundImageDialog/0.0.1440.900@0.0.1440.900" timestamp="1580652079976" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/ansible$get_es_index.coverage" NAME="get_es_index Coverage Results" MODIFIED="1581862011720" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/roles/grafana_install/resource" />
+    <SUITE FILE_PATH="coverage/ansible$get_yarn_running.coverage" NAME="get_yarn_running Coverage Results" MODIFIED="1581828676006" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/roles/grafana_install/resource" />
+  </component>
+</project>

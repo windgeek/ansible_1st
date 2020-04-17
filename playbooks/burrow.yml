@@ -1,0 +1,6 @@
+- name: Install Burrow
+  hosts: burrow_hosts
+  remote_user: root
+  roles:
+  - burrow_install
+  tags: burrow

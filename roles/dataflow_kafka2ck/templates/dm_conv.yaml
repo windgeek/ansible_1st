@@ -1,0 +1,43 @@
+#kafka
+kafka:
+  kafkaTopic: "K19-ASTANA-DM-CONV-LOG"
+  kafkaBrokerList: "{{kafkaBrokerList}}"
+  offSet: "latest"
+  groupId: "k19_product_dm_conv_log"
+  autoCommit: false
+
+spark:
+  appName: "dm_conv_application"
+  intervalTime: 5
+
+mysql:
+  driver: "com.mysql.cj.jdbc.Driver"
+  url: "jdbc:mysql://{{geoIpMysql}}/geo_ip?serverTimezone=CTT&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true"
+  userName: "root"
+  password: "{{geoIpMysqlRootPasswd}}"
+  tableName: "ip_location"
+
+clickHouse:
+  insertBlukSize: 30000
+  insertFormat: "TabSeparated"
+  ipPort: "{{clickhouseIpPort}}"
+  database: "k19_ods"
+  table: "dm_conv_log_local"
+  fields: "region,log_id,source_unit_name,found_time,end_time,client_ip,server_ip,service_id,lineid,pipe_id,vcid,instance_type,instance_key_1,instance_key_2,net_unit_id,client_device_name,client_device_class,client_device_vendor,client_device_model,client_device_os_name,client_device_os_fullVersion,client_device_os_majorVersion,tethering_indication,next_hop_as,destination_as,monitored_service_group_id,rating_group,session_rat,live_connections,new_connections,packets_in,packets_out,octets_in,octets_out,network_activity_time_sec,retransmitted_tcp_data_segments_in,total_tcp_data_segments_in,retransmitted_tcp_data_segments_out,total_tcp_data_segments_out,rttEstimate_external_avg_m_sec,rttEstimate_external_sum_m_sec,rttEstimate_externa_events_m_sec,rttEstimate_internal_avg_m_sec,rttEstimate_internal_sum_m_sec,rttEstimate_interna_events_m_sec,max_bandwidth_kbps,min_bandwidth_kbps,voip_session_duration,qos_dropped_packets_in,qos_dropped_packets_out,qos_dropped_octets_in,qos_dropped_octets_out,s_country,s_city,s_geo,d_country,d_city,d_geo,s_long,s_lat,d_long,d_lat"
+  intervalTime: 3
+  connRetryCount: 3
+  failConnRejoinInterval: 60
+  userName: {{ck_username}}
+  password: {{ck_password}}
+  timeSwitch: true
+# for monitor
+monitor:
+  offSwitch: true
+  errorMessageTopic: "K19-TEST-EXCEPTION-MESSAGE"
+  kafkaBrokerList: "{{monKafkaBrokerList}}"
+  exceptionSize: 10000
+  flushSwitch: false
+logLevel: "INFO"
+region: "{{region}}"
+separateSign: "comma"
+ipSwitch: 2

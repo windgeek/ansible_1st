@@ -1,0 +1,4 @@
+start_user: "node_exporter"
+exec_file: "/opt/node_exporter/node_exporter"
+node_exporter_version: "node_exporter-0.18.1.linux-amd64"
+

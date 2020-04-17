@@ -1,0 +1,6 @@
+- name: Install MySQL
+  hosts: postgresql_ha_hosts
+  remote_user: root
+  roles:
+  - postgresql_ha_install
+  tags: postgresql_ha

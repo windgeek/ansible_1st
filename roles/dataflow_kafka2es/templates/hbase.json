@@ -1,0 +1,13 @@
+{
+	"id": "hbase",
+	"type": "config",
+	"class": "com.bfd.cache.HbaseCache",
+	"quorum": "{{json_hbaseZk}}",
+	"port": 2181,
+	"parent": "/hbase-unsecure",
+	"table": "k18_media:http_cache",
+	"family": "cache",
+	"qualifier": "value",
+	"maxRows": 1000,
+	"ossUrl": "{{json_ossDownloadUrl}}"
+}

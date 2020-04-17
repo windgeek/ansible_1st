@@ -1,0 +1,10 @@
+[Unit]
+Description=node_exporter
+After=network.target
+[Service]
+Type=simple
+User={{start_user}}
+ExecStart={{exec_file}}
+Restart=on-failure
+[Install]
+WantedBy=multi-user.target

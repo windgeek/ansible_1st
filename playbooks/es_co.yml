@@ -1,0 +1,6 @@
+- name: Install es_co
+  hosts: es_co_hosts
+  remote_user: root
+  roles:
+  - es_co_install
+  tags: es_co

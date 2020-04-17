@@ -1,0 +1,3 @@
+#which_conf: _app
+which_conf: _clickhouse
+ck_log_dir: /data1/nginx_log

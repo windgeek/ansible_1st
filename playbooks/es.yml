@@ -1,0 +1,6 @@
+- name: Install es
+  hosts: es_hosts
+  remote_user: root
+  roles:
+  - es_install
+  tags: es

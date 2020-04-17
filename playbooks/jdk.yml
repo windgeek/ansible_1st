@@ -1,0 +1,6 @@
+- name: Install Jdk
+  hosts: jdk_hosts
+  remote_user: root
+  roles:
+  - java_install
+  tags: java

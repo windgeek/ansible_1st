@@ -1,0 +1,20 @@
+---
+# tasks file for npm_install
+- name: unpack the node file
+  unarchive: src=node-v8.11.2.tar.gz dest=/opt/ copy=yes
+- name: install config file
+  copy: src=node.sh dest=/etc/profile.d/
+- name: link
+  shell: ln -s /opt/node-v8.11.2 /opt/node
+- name: source node profile
+  shell: source /etc/profile.d/node.sh
+- name: register node version
+  shell: node -v
+  register: info
+- name: node -v
+  shell: |
+    source /etc/profile
+    node -v
+- name: display info
+  debug: msg="node installed {{ info['stdout'] }}"
+

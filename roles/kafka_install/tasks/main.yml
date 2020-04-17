@@ -1,0 +1,43 @@
+---
+# tasks file for kafka_install
+- name: unpack the kafka file
+  unarchive: src={{kafka_version}}.tgz dest=/opt/ copy=yes
+- name: kafka user check
+  shell: cat /etc/passwd
+  register: info
+- name: user delete
+  shell: userdel -rf kafka  && rm -rf /var/spool/mail/kafka
+  when: info.stdout.find('kafka') != -1
+- name: kafka group check
+  shell: cat /etc/group
+  register: group_info
+- name: group delete
+  shell: groupdel kafka
+  when: group_info.stdout.find('kafka') != -1
+- name: create user
+  shell: useradd kafka
+- name: create soft link
+  file: path=/opt/kafka state=link src=/opt/{{kafka_version}}
+- name: install
+  shell: |
+    chown -R kafka:kafka /opt/kafka
+    chown -R kafka:kafka /opt/{{kafka_version}}
+- name: config
+  template: src="templates/server.properties" dest="/opt/kafka/config/server.properties" owner=kafka group=kafka mode=0644
+- name: config start script
+  template: src="templates/kafka-server-start.sh" dest="/opt/kafka_2.11-1.1.1/bin/kafka-server-start.sh" owner=kafka group=kafka mode=0755
+- name: mkdir && chown
+  shell: |
+    mkdir -pv {{mkdirs}}
+    chown -R kafka:kafka {{mkdirs}} -R
+- name: start
+  shell: su - kafka -c "nohup /bin/sh /opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/server.properties &"
+- name: Check if Kafka is accessible
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 6667
+    state: started
+    delay: 10
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 25
+    connect_timeout: 5

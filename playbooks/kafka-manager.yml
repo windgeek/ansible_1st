@@ -1,0 +1,6 @@
+- name: Install kafkamanager
+  hosts: kafkamanager_hosts
+  remote_user: root
+  roles:
+  - kafkamanager_install
+  tags: kafkamanager

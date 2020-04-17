@@ -1,0 +1,59 @@
+---
+# tasks file for oss_install
+- name: unpack the oss file
+  unarchive: src=tomcat-oss.tar.gz dest=/opt/ copy=yes
+- name: oss user check
+  shell: cat /etc/passwd
+  register: info
+- name: user delete
+  shell: userdel -rf oss  && rm -rf /var/spool/mail/oss
+  when: info.stdout.find('oss') != -1
+- name: oss group check
+  shell: cat /etc/group
+  register: group_info
+- name: group delete
+  shell: groupdel oss
+  when: group_info.stdout.find('oss') != -1
+- name: create user
+  shell: useradd oss
+- name: chown
+  shell: chown -R oss:oss /opt/tomcat-oss
+- name: config application.yml
+  template: src="templates/application.yml" dest="/opt/tomcat-oss/webapps/oss/WEB-INF/classes/config/application.yml" owner=oss group=oss mode=0644
+- name: config application-{{env_tag}}.yml
+  template: src=templates/application-{{env_tag}}.yml dest=/opt/tomcat-oss/webapps/oss/WEB-INF/classes/config/application-{{env_tag}}.yml owner=oss group=oss mode=0644
+- name: start
+  shell: su - oss -c "/bin/sh /opt/tomcat-oss/bin/startup.sh"
+- name: Check if oss port
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 8057
+    state: started
+    delay: 10
+    #timeout一定要比上面的delay值大，否侧检测结果不正确
+    timeout: 15
+    connect_timeout: 5
+- name: generate lt 1m
+  shell: echo "success" > /tmp/test
+- name: check lt 1m upload
+  shell: curl --location --request POST "http://{{ansible_hostname}}:8057/upload_v2/0/txt/10.0.19.254/6666/10.0.19.254/8080/1571644561053/rongzhi.wei/test_1" --header "Content-Type:text/plain" --data-binary "@/tmp/test"
+  register: result1
+- name: Show debug info
+  debug: var=result1 verbosity=0
+- name: check lt 1m download
+  shell: curl --location --request GET "http://{{ansible_hostname}}:8057/download_v2/test_1"
+  register: result2
+- name: Show debug info
+  debug: var=result2 verbosity=0
+- name: generate gt 1m
+  shell: truncate -s 2M /tmp/tests
+- name: check gt 1m upload
+  shell: curl --location --request POST "http://{{ansible_hostname}}:8057/upload_v2/0/txt/10.0.19.254/6666/10.0.19.254/8080/1571644561053/rongzhi.wei/tests_1" --header "Content-Type:text/plain" --data-binary "@/tmp/tests"
+  register: result3
+- name: Show debug info
+  debug: var=result3 verbosity=0
+- name: check gt 1m download
+  shell: curl -O --location --request GET "http://{{ansible_hostname}}:8057/download_v2/tests_1"
+  register: result4
+- name: Show debug info
+  debug: var=result4 verbosity=0

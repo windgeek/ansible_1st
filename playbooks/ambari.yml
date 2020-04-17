@@ -1,0 +1,6 @@
+- name: ambari_install
+  hosts: ambari_server
+  remote_user: root
+  roles:
+  - mysql_install
+  - ambari_install

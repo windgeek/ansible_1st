@@ -1,0 +1,5 @@
+---
+# vars file for zabbix-server_install
+http_ip: "{{ ansible_default_ipv4['address'] }}"
+mysql_ip: "{{ ansible_default_ipv4['address'] }}"
+timezone: Asia/Shanghai

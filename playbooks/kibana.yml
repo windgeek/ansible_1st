@@ -1,0 +1,6 @@
+- name: Install kibana
+  hosts: kibana_hosts
+  remote_user: root
+  roles:
+  - kibana_install
+  tags: Install kibana

@@ -1,0 +1,44 @@
+[mysqld]
+port=3306
+datadir={{data_dir}}
+socket=/tmp/mysql.sock
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+# Settings user and group are ignored when systemd is used.
+# If you need to run mysqld under a different user or group,
+# customize your systemd unit file for mariadb according to the
+# instructions in http://fedoraproject.org/wiki/Systemd
+
+server-id=2                               #25机器上这里写25的数值
+gtid_mode=on                              #开启gtid模式
+enforce_gtid_consistency=on
+log-bin={{log_bin}}
+
+# Recommended in standard MySQL setup
+sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+
+# character set
+character-set-server=utf8mb4
+collation-server=utf8mb4_unicode_ci
+character-set-client-handshake=FALSE
+
+# Default user
+user=mysql
+
+# slow query
+slow_query_log=on
+slow_query_log_file={{log_path}}/slow-query.log
+
+wait_timeout = 86400
+interactive_timeout = 600
+max_connections=1000
+
+lower_case_table_names = 1
+[mysqld_safe]
+log-error={{log_error_file}}
+pid-file={{pid_file}}
+
+# include all files from the config directory
+#
+!includedir /etc/my.cnf.d
+

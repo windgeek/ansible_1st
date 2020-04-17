@@ -1,0 +1,7 @@
+---
+# tasks file for change hostname
+
+- name: change host name
+  raw: "echo {{host_name|quote}} > /etc/hostname"
+- name:
+  shell: hostnamectl set-hostname {{host_name|quote}}

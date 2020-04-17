@@ -1,0 +1,5 @@
+- name: Install ClickHouse_cluster_replica
+  hosts: clickhouse_cluster_replica_hosts #hosts 定义单个主机或组
+  remote_user: root #以root账户执行
+  roles:
+  - clickhouse_cluster_replica_install

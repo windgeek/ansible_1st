@@ -1,0 +1,38 @@
+kafka:
+  kafkaTopic: "K19-ASTANA-NTC-COLLECT-LBS-LOG"
+  kafkaBrokerList: "{{monKafkaBrokerList}}"
+  offSet: "latest"
+  groupId: "k19_product_ntc_collect_lbs_log"
+  autoCommit: false
+spark:
+  appName: "k19_ntc_collect_lbs_application"
+  intervalTime: 5
+clickHouse:
+  insertBlukSize: 30000
+  insertFormat: "TabSeparated"
+  ipPort: "{{clickhouseIpPort}}"
+  database: "k19_ods"
+  table: "ntc_collect_lbs_log_local"
+  fields: "region,log_id,cfg_id,found_time,recv_time,trans_proto,addr_type,d_ip,s_ip,d_port,s_port,device_id,direction,stream_dir,cap_ip,addr_list,server_locate,client_locate,s_asn,d_asn,s_subscribe_id,d_subscribe_id,user_region,scene_file,msisdn,imsi,imei,radius_account,app_lable,protocol,longitude,latitude,coordinate_type,geo_location,geo_long,geo_lat"
+  intervalTime: 3
+  connRetryCount: 3
+  failConnRejoinInterval: 60
+  userName: {{ck_username}}
+  password: {{ck_password}}
+  timeSwitch: false
+mysql:
+  driver: "com.mysql.cj.jdbc.Driver"
+  url: "jdbc:mysql://{{geoIpMysql}}/geo_ip?serverTimezone=CTT&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true"
+  userName: "root"
+  password: "{{geoIpMysqlRootPasswd}}"
+  tableName: "ip_location"
+monitor:
+  offSwitch: true
+  errorMessageTopic: "K19-TEST-EXCEPTION-MESSAGE"
+  kafkaBrokerList: "{{monKafkaBrokerList}}"
+  exceptionSize: 10000
+  flushSwitch: false
+logLevel: "INFO"
+region: "{{region}}"
+separateSign: "json"
+mergeGeo: true

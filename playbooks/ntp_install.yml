@@ -1,0 +1,7 @@
+- name: ntp_install
+  hosts: ntp_hosts
+  remote_user: root
+  roles:
+  - ntp_install
+  tags: ntp_install
+

@@ -1,0 +1,4 @@
+- name: start ambari-server
+  shell: |
+    ambari-server start
+    ambari-server setup --jdbc-db=mysql --jdbc-driver=/usr/share/java/mysql-connector-java.jar

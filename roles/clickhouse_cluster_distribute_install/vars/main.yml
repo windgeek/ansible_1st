@@ -1,0 +1,25 @@
+#tcp port
+shard_port: 9000
+#http port
+http_port: 8123
+#data directory
+data_dir: '/data1/clickhouse-server'
+#to add cluster node config in metrika.xml
+# used to monitor
+hosts_list:
+  - "platform-server-1"
+  - "platform-server-2"
+  - "platform-server-3"
+  - "platform-server-4"
+  - "platform-server-7"
+  - "platform-server-8"
+  - "platform-server-9"
+  - "platform-server-10"
+#clickhouse cluster name
+# usered to distirbute
+shard_list:
+  - ["platform-server-7","platform-server-8"]
+  - ["platform-server-9","platform-server-10"]
+clickhouse_cluster_distribute: clickhouse_cluster_distribute
+clickhouse_cluster_monitor: clickhouse_cluster_monitor
+

@@ -1,0 +1,10 @@
+[Unit]
+Description=prometheus
+After=network.target
+[Service]
+Type=simple
+User={{start_user}}
+ExecStart={{exec_file}} --config.file={{config_file}} --storage.tsdb.path={{tsdb_path}} --storage.tsdb.retention={{data_retention_time}} --web.max-connections=512 --storage.tsdb.wal-compression --alertmanager.notification-queue-capacity=100000 --query.max-concurrency=128 --query.max-samples=50000000
+Restart=on-failure
+[Install]
+WantedBy=multi-user.target

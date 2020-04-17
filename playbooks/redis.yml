@@ -1,0 +1,6 @@
+- name: install redis-5.0.2
+  hosts: redis_hosts
+  remote_user: root
+  roles:
+  - redis_install
+  tags: redis-5.0.2 install

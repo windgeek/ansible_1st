@@ -1,0 +1,3 @@
+data_paths: /data1/neo4j
+data_path: /data1/neo4j/data
+import_path: /data1/neo4j/import

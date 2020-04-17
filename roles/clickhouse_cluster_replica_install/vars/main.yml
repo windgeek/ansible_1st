@@ -1,0 +1,33 @@
+#tcp port
+shard_port: 9000
+# http port
+http_port: 8123
+#data path
+data_dir: '/data1/clickhouse-server'
+
+#shard_list:
+#  - ["platform-server-1","platform-server-2"]
+#  - ["platform-server-3","platform-server-4"]
+
+#for single replica cluster, add to node pari in metrika.xml
+shard_list:
+  - ["platform-server-7","platform-server-8"]
+  - ["platform-server-9","platform-server-10"]
+
+
+
+#zookeeper_list: ["platform-server-1","platform-server-2","platform-server-3"]
+#zookeeper list
+zookeeper_list: ["platform-server-7","platform-server-8","platform-server-10"]
+
+
+#ck cluster name
+#network_write_clutser_name: clickhouse_tse_network_write
+#other_write_clutser_name: clickhouse_tse_other_write
+
+network_write_clutser_name: clickhouse_ala_network_write
+#other_write_clutser_name: clickhouse_ala_other_write
+
+
+#zk port
+zk_prot: 2181

@@ -1,0 +1,80 @@
+---
+# tasks file for mysql_install
+- name: unpack the MySQL file
+  unarchive: src={{si_pkgs}}/mysql-5.7.20-linux-glibc2.12-x86_64.tar.gz dest=/usr/local copy=yes
+#- name: mysql user check
+#  shell: cat /etc/passwd
+#  register: info
+#- name: user delete
+#  shell: userdel -rf mysql && rm -rf /var/spool/mail/mysql
+#  when: info.stdout.find('mysql') != -1
+#- name: create user
+#  shell: useradd mysql
+- name: create group
+  group: name=mysql state=present system=yes
+- name: create user
+  user: name=mysql group=mysql password=mysql home=/home/mysql
+- name: install
+  shell: |
+    ln -s /usr/local/mysql-5.7.20-linux-glibc2.12-x86_64   /usr/local/mysql
+    chown -R mysql:mysql usr/local/mysql*
+    cd /usr/local
+    chown -R mysql:mysql mysql*
+- name: config master
+  template: src="templates/my01.cnf.j2" dest="/etc/my.cnf" owner=root group=root mode=0644
+  when: inventory_hostname == groups.mysql_hosts[0]
+- name: config slave
+  template: src="templates/my02.cnf.j2" dest="/etc/my.cnf" owner=root group=root mode=0644
+  when: inventory_hostname == groups.mysql_hosts[1]
+- name: autostart config
+  shell: |
+    cp /usr/local/mysql/support-files/mysql.server  /etc/init.d/mysqld
+    chown -R mysql:mysql /etc/my.cnf /etc/init.d/mysqld
+- name: Install dependency
+  yum: name={{item.name}} state={{item.state|default("installed")}}
+  with_items:
+    - name: "autoconf"
+    - name: "libaio*"
+    - name: "perl-DBI"
+    - name: "perl-Data-Dumper.x86_64"
+    - name: "MySQL-python"
+- name: mkdir && touch
+  shell: |
+    mkdir -p {{data_dirs}}/{log/{binlog,error,general,innodb,relay,slow},run,data,innodb,proc,tmp}
+    touch {{pid_file}}
+    chown -R mysql.mysql {{data_dirss}} -R
+    chmod -R 770 {{data_dirss}}
+- name: init && start
+  shell: |
+    /usr/local/mysql/bin/mysqld --defaults-file=/etc/my.cnf --user=mysql --basedir=/usr/local/mysql --datadir={{data_dir}} --initialize
+    #/usr/local/mysql/bin/mysqld --defaults-file=/etc/my.cnf --user=mysql --basedir=/usr/local/mysql --datadir={{data_dir}} --initialize
+    ln -s /usr/local/mysql/bin/mysqld /usr/bin/mysqld
+    systemctl daemon-reload
+    systemctl start mysqld
+- name: environment
+  shell: |
+    echo -e 'export MYSQL_HOME=/usr/local/mysql\nexport PATH=${MYSQL_HOME}/bin:$PATH'>> /etc/profile.d/mysql.sh
+    source /etc/profile.d/mysql.sh
+- name: environment source
+  shell: source /etc/profile
+- name: autostart
+  shell: |
+    chkconfig --add mysqld
+    chkconfig mysqld on
+- name: copy getpasswd shell
+  copy: src="passwd.sh" dest=/usr/local/mysql/
+- name: run change shell
+  shell: sh /usr/local/mysql/passwd.sh
+- name: copy userinit shell
+  copy: src="userinit.sh" dest=/usr/local/mysql/
+- name: run change shell
+  shell: sh /usr/local/mysql/userinit.sh
+- name: Check if Mysql is accessible
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 3306
+    state: started
+    delay: 5
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 10
+    connect_timeout: 5

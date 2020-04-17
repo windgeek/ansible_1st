@@ -1,0 +1,5 @@
+- name: ceph_install
+  hosts: ceph_master
+  remote_user: root
+  roles:
+  - ceph_install

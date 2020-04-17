@@ -1,0 +1,5 @@
+dataDir: /data1/zookeeper/data
+dataLogDir: /data2/zookeeper/logs
+zk1: bgs-4p143-lisong
+zk2: bgs-4p144-lisong
+zk3: bgs-4p145-lisong

@@ -1,0 +1,15 @@
+kafka2ck_version: kafka2ck-4.8
+jar_version: kafka2ck-4.8.jar
+dataflow_dir: /data1/kafka2ck
+kafkaBrokerList: 192.168.162.95:6667,192.168.162.96:6667
+monKafkaBrokerList: 192.168.162.95:6667,192.168.162.96:6667
+clickhouseIpPort: bjlg-3p208-lisong:8123,bjlg-3p209-lisong:8123
+#ck的用户名和密码，没有配置的填入""
+ck_username: ""
+ck_password: ""
+geoIpMysql: 172.16.3.209:3306
+geoIpMysqlRootPasswd: k18k18
+#若没做ha，就填入 hdfsActiveNamenode 例如：tsecluster或k182nd-stg-02:8020
+hdfsHAClusterName: k182nd-stg-02:8020
+region: TSE
+logLevel: info

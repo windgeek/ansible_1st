@@ -1,0 +1,7 @@
+data_dirss: /data1/mysqldb
+data_dirs: /data1/mysqldb/3306
+data_dir: /data1/mysqldb/3306/data
+log_error_dir: /data1/mysqldb/3306/logs/mysql-error.log
+pid_dir: /data1/mysqldb/3306/run/mysqld.pid
+log_bin: /data1/mysqldb/3306/bin-logs/mysql-bin
+server_id: 1

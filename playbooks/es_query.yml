@@ -1,0 +1,6 @@
+- name: Install es_query
+  hosts: es_query_hosts
+  remote_user: root
+  roles:
+  - es_query_install
+  tags: es_query_install

@@ -1,0 +1,4 @@
+server_port: 5601
+kibana_version: kibana-6.7.2-linux-x86_64
+elasticsearch_hosts: '["http://172.24.9.46:9200","http://172.24.9.47:9200"]'
+path_data: '/data1/kibana'

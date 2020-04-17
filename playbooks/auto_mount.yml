@@ -1,0 +1,15 @@
+- name: auto mount
+  hosts: common
+  remote_user: root
+  roles:
+  - auto_mount
+- name: auto mount
+  hosts: clickhouse
+  remote_user: root
+  roles:
+  - auto_mount
+- name: auto mount
+  hosts: zookeeper
+  remote_user: root
+  roles:
+  - auto_mount

@@ -1,0 +1,21 @@
+---
+# tasks file for neo4j_install
+- name: unpack the Neo4j file
+  unarchive: src=neo4j-community-3.4.9-unix.tar.gz dest=/opt copy=yes
+- name: create soft link
+  file: path=/opt/neo4j state=link src=/opt/neo4j-community-3.4.9
+- name: copy neo4j install script to client
+  template: src=install_neo4j.sh dest=/tmp/ owner=root group=root mode=0775
+- name: install neo4j
+  shell: bash /tmp/install_neo4j.sh
+- name: kill me
+  file: path=/tmp/install_neo4j.sh state=absent
+- name: Check if Neo4j is accessible
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 7474
+    state: started
+    delay: 10
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 15
+    connect_timeout: 5
